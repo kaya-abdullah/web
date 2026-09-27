@@ -28,13 +28,13 @@ export const HOME_H1 = "Your TypeScript app, from prompt to production";
 
 /** The paragraph directly under the <h1>. */
 export const HOME_SUBHEADLINE =
-  "Give your coding agent a type-safe ORM, managed Postgres, and app hosting that work " +
-  "together natively. One shared context across your stack is all your agent needs to build, " +
-  "deploy, and iterate without coordinating between vendors.";
+  "Give your coding agent a type-safe ORM, managed Postgres, and app hosting that share one " +
+  "context, so it can build, deploy, and iterate without coordinating between vendors.";
 
-// hero-home.tsx renders the proof line from siteConfig.proof ("Trusted by
-// <stat> <label>" for the first entry, then the rest joined by a middot), so
-// it is derived here too rather than copied — the star count dates fast.
+// hero-home.tsx renders siteConfig.proof as a row of stat tiles; here it
+// reads as one line ("Trusted by <stat> <label>" for the first entry, then the
+// rest joined by a middot), derived rather than copied — the star count dates
+// fast.
 const proofLine = siteConfig.proof
   .map(({ stat, label }, i) => `${i === 0 ? "Trusted by " : ""}${stat} ${label}`)
   .join(" · ");

@@ -165,17 +165,17 @@ function LoopDiagram() {
 
 export function AgentLoop() {
   return (
-    <section className="bg-white px-4 py-24 sm:px-8 sm:py-32">
+    <section className="bg-white px-4 py-14 sm:px-8 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-site">
-        <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
+        <div className="grid gap-10 sm:gap-14 lg:grid-cols-2 lg:gap-20">
           <div>
             <Reveal>
-              <h2 className="max-w-[20ch] text-balance text-[clamp(2.125rem,3.5vw,3rem)] leading-[1.1]">
+              <h2 className="max-w-[20ch] text-balance text-[clamp(2rem,3.5vw,3rem)] leading-[1.1]">
                 What changes when your stack is built to work together
               </h2>
             </Reveal>
 
-            <div className="mt-12 flex flex-col gap-9">
+            <div className="mt-8 flex flex-col gap-6 sm:mt-12 sm:gap-9">
               {FEATURES.map(({ icon: Icon, title, body }, i) => (
                 <Reveal key={title} delay={i * 0.1} className="flex items-start gap-5">
                   <IconTile>

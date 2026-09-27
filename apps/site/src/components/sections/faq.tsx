@@ -56,15 +56,15 @@ export function Faq({
   items?: readonly FaqItem[];
 } = {}) {
   return (
-    <section className="px-6 py-24 lg:px-8">
+    <section className="px-6 py-14 sm:py-20 lg:px-8 lg:py-24">
       <div className="mx-auto max-w-site">
-        <Reveal className="mx-auto max-w-2xl text-center">
+        <Reveal className="mx-auto max-w-3xl sm:max-w-2xl sm:text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             {heading}
           </h2>
         </Reveal>
 
-        <Reveal delay={0.1} className="mx-auto mt-16 max-w-3xl">
+        <Reveal delay={0.1} className="mx-auto mt-6 max-w-3xl sm:mt-16">
           <Accordion type="single" collapsible defaultValue="item-0">
             {items.map((faq, index) => (
               <AccordionItem key={faq.question} value={`item-${index}`}>

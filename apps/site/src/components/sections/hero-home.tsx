@@ -59,15 +59,17 @@ export function HeroHome() {
 
         <div className="relative px-4 sm:px-8">
           <div className="mx-auto flex max-w-4xl animate-hero-rise flex-col items-start pt-28 text-left motion-reduce:animate-none md:items-center md:pt-36 md:text-center">
-            <h1 className="isolate max-w-[20ch] text-balance text-[clamp(2.5rem,4.5vw,3.875rem)] leading-[1.06]">
+            {/* phones scale the headline with the viewport so it sets in three
+                lines instead of stranding "prompt" on a line of its own */}
+            <h1 className="isolate max-w-[20ch] text-balance text-[clamp(2rem,9.2vw,2.5rem)] leading-[1.06] md:text-[clamp(2.5rem,4.5vw,3.875rem)]">
               Your TypeScript app, from <GlassGlide>prompt to production</GlassGlide>
             </h1>
-            <p className="mt-6 max-w-[64ch] text-pretty text-lg leading-relaxed text-muted-foreground">
-              Give your coding agent a type-safe ORM, managed Postgres, and app hosting that work
-              together natively. One shared context across your stack is all your agent needs to
-              build, deploy, and iterate without coordinating between vendors.
+            <p className="mt-5 max-w-[60ch] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground sm:mt-6 sm:text-lg">
+              Give your coding agent a type-safe ORM, managed Postgres, and app hosting that share
+              one context, so it can build, deploy, and iterate without coordinating between
+              vendors.
             </p>
-            <ul className="mt-8 flex flex-wrap items-center justify-start gap-x-7 gap-y-3 md:justify-center">
+            <ul className="mt-6 flex flex-wrap items-center justify-start gap-x-7 gap-y-2.5 sm:mt-8 sm:gap-y-3 md:justify-center">
               {CHECKS.map(({ label, color }) => (
                 <li
                   key={label}
@@ -78,32 +80,37 @@ export function HeroHome() {
                 </li>
               ))}
             </ul>
-            <div className="mt-10 flex flex-wrap items-center justify-start gap-4 md:justify-center">
+            <div className="mt-8 flex flex-wrap items-center justify-start gap-3 sm:mt-10 sm:gap-4 md:justify-center">
               <PrismButton href="https://console.prisma.io/sign-up">Get started free</PrismButton>
               <PrismButtonOutline href="/pricing">See pricing</PrismButtonOutline>
             </div>
-            {/* social proof stays above the fold, right under the CTAs */}
-            <p className="mt-8 flex flex-wrap items-center justify-start gap-x-2.5 gap-y-1 text-sm leading-relaxed text-muted-foreground md:justify-center">
-              {PROOF.map(({ stat, label }, i) => (
-                <span key={label} className="contents">
-                  {i > 0 && (
-                    <span aria-hidden className="text-foreground/20 max-sm:hidden">
-                      ·
-                    </span>
+            {/* social proof stays above the fold, right under the CTAs: three
+                stat tiles, figure over label, so the numbers land at a glance
+                instead of reading as a grey sentence */}
+            <dl className="mt-9 grid w-full max-w-2xl grid-cols-3 divide-x divide-black/[0.08] sm:mt-10">
+              {PROOF.map(({ compact, label, tileLabel }, i) => (
+                <div
+                  key={label}
+                  className={cn(
+                    "flex flex-col gap-1.5 px-3 sm:px-6 md:items-center",
+                    i === 0 && "pl-0 md:pl-6",
                   )}
-                  <span className="whitespace-nowrap">
-                    {i === 0 && "Trusted by "}
-                    <span className="font-semibold text-foreground">{stat}</span> {label}
-                  </span>
-                </span>
+                >
+                  <dt className="order-last text-pretty text-xs leading-snug text-muted-foreground sm:text-sm">
+                    {tileLabel}
+                  </dt>
+                  <dd className="font-heading text-[1.625rem] font-medium leading-none text-foreground sm:text-[2rem]">
+                    {compact}
+                  </dd>
+                </div>
               ))}
-            </p>
+            </dl>
           </div>
 
           {/* product: the crisp triple-band prism ray crosses the panel behind
               the console — light passing through the product. Masks in on load
               (see --animate-hero-ray-mask), progressively uncovered L→R. */}
-          <div className="relative mx-auto mt-14 w-full max-w-4xl pb-16 max-md:mt-10 max-md:pb-10">
+          <div className="relative mx-auto mt-14 w-full max-w-4xl pb-16 max-md:mt-10 max-md:pb-8">
             <div
               aria-hidden
               className="pointer-events-none absolute left-1/2 top-[42%] h-24 w-[120rem] -translate-x-1/2 animate-hero-ray-mask motion-reduce:animate-none"
