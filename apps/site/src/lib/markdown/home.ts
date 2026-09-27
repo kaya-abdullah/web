@@ -274,6 +274,7 @@ export function renderHomeMarkdown(): string {
     // Only the first accordion item is open by default; every answer is
     // included because the Markdown has no interaction.
     heading(2, "FAQ"),
+    paragraphs("More answers live in the [docs](/docs), or [talk to our team](/contact)."),
     heading(3, "Do I have to use all three products?"),
     paragraphs(
       "No. Prisma Postgres works with any ORM. Prisma Compute works with any TypeScript app. " +

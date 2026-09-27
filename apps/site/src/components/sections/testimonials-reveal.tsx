@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/reveal";
+import { SectionKicker } from "@/components/brand/section-kicker";
 import { cn } from "@/lib/utils";
 import { TESTIMONIALS, type Testimonial } from "./testimonials-data";
 
@@ -91,11 +92,28 @@ function HalfTrack({ items, hidden = false }: { items: Testimonial[]; hidden?: b
   );
 }
 
-export function TestimonialsReveal({ heading = "Real teams, real builds" }: { heading?: string }) {
+// `kicker` opts into the homepage's left-aligned section header (kicker over
+// headline); without it the heading stays centred, as on the product pages
+// whose other sections are centred too.
+export function TestimonialsReveal({
+  heading = "Real teams, real builds",
+  kicker,
+}: {
+  heading?: string;
+  kicker?: string;
+}) {
   return (
     <section className="bg-white px-4 py-14 sm:px-8 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-site">
-        <h2 className="max-w-[24ch] text-balance text-[clamp(1.75rem,2.75vw,2.375rem)] leading-[1.1] sm:mx-auto sm:text-center">
+        {kicker ? <SectionKicker>{kicker}</SectionKicker> : null}
+        <h2
+          className={cn(
+            "max-w-[24ch] text-balance leading-[1.1]",
+            kicker
+              ? "mt-4 text-[clamp(2rem,3.5vw,3rem)]"
+              : "text-[clamp(1.75rem,2.75vw,2.375rem)] sm:mx-auto sm:text-center",
+          )}
+        >
           {heading}
         </h2>
       </div>

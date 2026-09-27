@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CheckBold, X } from "@/components/icons/forma";
 import { Pattern } from "@/components/brand/pattern";
+import { SectionKicker } from "@/components/brand/section-kicker";
 import { Reveal } from "@/components/motion/reveal";
 import { BrokenCard, LiveCard } from "@/components/sections/comparison-cards";
 import { cn } from "@/lib/utils";
@@ -40,7 +41,8 @@ export function Comparison() {
     <section className="bg-white px-4 py-14 sm:px-8 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-site">
         <Reveal>
-          <h2 className="max-w-[24ch] text-balance text-[clamp(2rem,3.5vw,3rem)] leading-[1.1] md:mx-auto md:text-center">
+          <SectionKicker>Before and after</SectionKicker>
+          <h2 className="mt-4 max-w-[24ch] text-balance text-[clamp(2rem,3.5vw,3rem)] leading-[1.1]">
             The stack your agent has been waiting for
           </h2>
         </Reveal>
@@ -49,7 +51,7 @@ export function Comparison() {
           <div
             role="group"
             aria-label="Show your stack before or after Prisma"
-            className="relative grid grid-cols-2 rounded-full border border-black/[0.08] bg-muted/60 p-1 md:mx-auto"
+            className="relative grid grid-cols-2 rounded-full border border-black/[0.08] bg-muted/60 p-1"
           >
             {/* the active pill slides between the two options */}
             <span
@@ -76,7 +78,7 @@ export function Comparison() {
           </div>
         </Reveal>
 
-        <div className="mx-auto mt-6 grid max-w-5xl gap-10 sm:mt-8 lg:mt-16 lg:grid-cols-2 lg:gap-12">
+        <div className="mt-6 grid gap-10 sm:mt-8 lg:mt-14 lg:grid-cols-2 lg:gap-6">
           {/* before */}
           <Reveal
             delay={0.05}

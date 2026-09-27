@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CheckBold, X } from "@/components/icons/forma";
 import { PrismButton } from "@/components/brand/prism-button";
+import { SectionKicker } from "@/components/brand/section-kicker";
 import { Reveal } from "@/components/motion/reveal";
 import { CountUp } from "@/components/motion/count-up";
 import { cn } from "@/lib/utils";
@@ -265,7 +266,8 @@ export function PricingScale() {
         <div className="grid gap-8 sm:gap-10 lg:grid-cols-2 lg:items-start lg:gap-16">
           <div>
             <Reveal>
-              <h2 className="max-w-[20ch] text-balance text-[clamp(2rem,3.5vw,3rem)] leading-[1.1]">
+              <SectionKicker>Pricing</SectionKicker>
+              <h2 className="mt-4 max-w-[20ch] text-balance text-[clamp(2rem,3.5vw,3rem)] leading-[1.1]">
                 Pricing that scales with you
               </h2>
             </Reveal>

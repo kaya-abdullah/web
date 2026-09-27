@@ -1,7 +1,7 @@
 import { Console, Table } from "@/components/icons/forma";
 import { IconTile } from "@/components/brand/icon-tile";
 import { LearnMore } from "@/components/brand/learn-more";
-import { ConnectorStrip } from "@/components/sections/connector-strip";
+import { ConnectorJoint, ConnectorStrip } from "@/components/sections/connector-strip";
 import { OrmIllustration } from "@/components/sections/orm-illustration";
 import { PostgresIllustration } from "@/components/sections/postgres-illustration";
 import { ComputeIllustration } from "@/components/sections/compute-illustration";
@@ -10,6 +10,7 @@ import { Pattern } from "@/components/brand/pattern";
 import { Texture } from "@/components/brand/texture";
 import { Reveal } from "@/components/motion/reveal";
 import { RoleKicker } from "@/components/brand/role-kicker";
+import { SectionKicker } from "@/components/brand/section-kicker";
 
 // Spectrum gradient matching the brand CTA glow (see prism-button.tsx).
 const SPECTRUM =
@@ -75,11 +76,16 @@ export function StackBento() {
         <Texture opacity={0.06} blend="multiply" />
 
         <div className="relative px-4 py-12 sm:px-8 sm:py-24">
-          <Reveal className="mx-auto flex max-w-3xl flex-col items-start text-left md:items-center md:text-center">
-            <h2 className="max-w-[24ch] text-balance text-[clamp(2rem,3.5vw,3rem)] leading-[1.1]">
-              The TypeScript stack, integrated by design
-            </h2>
-            <p className="mt-4 max-w-[64ch] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
+          {/* section header: kicker and headline left, the supporting line
+              in the right-hand columns from lg (the homepage's header system) */}
+          <Reveal className="mx-auto max-w-site lg:grid lg:grid-cols-12 lg:items-end lg:gap-10">
+            <div className="lg:col-span-7">
+              <SectionKicker>The platform</SectionKicker>
+              <h2 className="mt-4 max-w-[24ch] text-balance text-[clamp(2rem,3.5vw,3rem)] leading-[1.1]">
+                The TypeScript stack, integrated by design
+              </h2>
+            </div>
+            <p className="mt-4 max-w-[64ch] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg lg:col-span-5 lg:mt-0 lg:pb-1">
               ORM, database, and hosting designed to work together, so your agent can build, deploy,
               and iterate without coordinating between vendors.
             </p>
@@ -120,11 +126,15 @@ export function StackBento() {
               gradient="from-prism-cyan-400 to-prism-yellow-400"
             />
 
-            {/* Prisma Postgres — full-width row, illustration left */}
-            <Reveal className="overflow-hidden rounded-2xl border border-black/[0.06] bg-card">
-              <div className="grid lg:grid-cols-2">
+            {/* From lg, Postgres and Compute share a row under the ORM — the
+                two products prisma.config.ts ties together, side by side, with
+                the file bridging the gap between them (ConnectorJoint). Below
+                lg they stack with the vertical connector between. */}
+            <div className="relative lg:grid lg:grid-cols-2 lg:gap-6">
+              {/* Prisma Postgres */}
+              <Reveal className="flex flex-col overflow-hidden rounded-2xl border border-black/[0.06] bg-card">
                 <PostgresIllustration />
-                <div className="p-6 sm:p-9">
+                <div className="flex flex-1 flex-col p-6 sm:p-9">
                   <RoleKicker color="bg-prism-yellow-400">Managed database</RoleKicker>
                   <h3 className="mt-3 text-2xl">Prisma Postgres</h3>
                   <p className="mt-3 text-pretty text-[0.9375rem] leading-relaxed text-muted-foreground">
@@ -141,22 +151,22 @@ export function StackBento() {
                       fix them
                     </Bullet>
                   </ul>
-                  <LearnMore href="/postgres" product="Prisma Postgres" />
+                  <LearnMore href="/postgres" product="Prisma Postgres" className="mt-auto pt-5" />
                 </div>
+              </Reveal>
+
+              <div className="lg:hidden">
+                <ConnectorStrip
+                  file="prisma.config.ts"
+                  caption="One config, both products"
+                  gradient="from-prism-yellow-400 to-prism-red-500"
+                />
               </div>
-            </Reveal>
 
-            <ConnectorStrip
-              file="prisma.config.ts"
-              caption="One config, both products"
-              gradient="from-prism-yellow-400 to-prism-red-500"
-            />
-
-            {/* Prisma Compute — full-width row, illustration right */}
-            <Reveal className="overflow-hidden rounded-2xl border border-black/[0.06] bg-card">
-              <div className="grid lg:grid-cols-2">
+              {/* Prisma Compute */}
+              <Reveal className="flex flex-col overflow-hidden rounded-2xl border border-black/[0.06] bg-card">
                 <ComputeIllustration />
-                <div className="flex flex-col p-6 max-lg:order-last sm:p-9 lg:order-first">
+                <div className="flex flex-1 flex-col p-6 sm:p-9">
                   <RoleKicker color="bg-prism-red-500">App hosting</RoleKicker>
                   <h3 className="mt-3 text-2xl">Prisma Compute</h3>
                   <p className="mt-3 text-pretty text-[0.9375rem] leading-relaxed text-muted-foreground">
@@ -176,8 +186,19 @@ export function StackBento() {
                   </ul>
                   <LearnMore href="/compute" product="Prisma Compute" className="mt-auto pt-5" />
                 </div>
-              </div>
-            </Reveal>
+              </Reveal>
+
+              <Reveal
+                delay={0.2}
+                className="absolute left-1/2 top-[10rem] z-10 -translate-x-1/2 -translate-y-1/2 max-lg:hidden"
+              >
+                <ConnectorJoint
+                  file="prisma.config.ts"
+                  caption="One config, both products"
+                  gradient="from-prism-yellow-400 to-prism-red-500"
+                />
+              </Reveal>
+            </div>
 
             {/* Working across the stack — half the connector-strip gap: close
                 enough to read as part of the stack, distinct from the wired

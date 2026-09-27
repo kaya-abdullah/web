@@ -1,7 +1,9 @@
 import { PrismButtonOutline } from "@/components/brand/prism-button";
 import { PrismRay } from "@/components/brand/prism-ray";
+import { SectionKicker } from "@/components/brand/section-kicker";
 import { DefineMock, DeployMock, IterateMock } from "@/components/brand/step-mocks";
 import { Reveal } from "@/components/motion/reveal";
+import { HowItWorksStepper } from "@/components/sections/how-it-works-stepper";
 
 // One ray crossing the whole card row in a single continuous movement: every
 // card embeds the same full-row track (offset by its column, width spanning
@@ -108,10 +110,21 @@ export function HowItWorks() {
   return (
     <section className="bg-white px-4 py-14 sm:px-8 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-site">
-        <Reveal>
-          <h2 className="max-w-[24ch] text-balance text-[clamp(2rem,3.5vw,3rem)] leading-[1.1]">
-            Ship a production TypeScript app in three steps
-          </h2>
+        {/* the CTA joins the header row on desktop, where the stepper would
+            otherwise push it a screen below the heading it answers */}
+        <Reveal className="flex items-end justify-between gap-10">
+          <div>
+            <SectionKicker>How it works</SectionKicker>
+            <h2 className="mt-4 max-w-[24ch] text-balance text-[clamp(2rem,3.5vw,3rem)] leading-[1.1]">
+              Ship a production TypeScript app in three steps
+            </h2>
+          </div>
+          <PrismButtonOutline
+            href="https://console.prisma.io/sign-up"
+            className="mb-1 shrink-0 max-lg:hidden"
+          >
+            Get started free
+          </PrismButtonOutline>
         </Reveal>
 
         {/* Below md the steps become a swipeable row — the next card peeks in
@@ -120,7 +133,7 @@ export function HowItWorks() {
             (RayBeam) still lines up. One Reveal wraps the row: a per-card
             reveal would make cards still clipped off to the side rise in as
             they're swiped. */}
-        <Reveal className="-mx-4 mt-8 flex snap-x snap-mandatory scroll-px-4 gap-5 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:-mx-8 sm:mt-12 sm:scroll-px-8 sm:px-8 md:mx-0 md:mt-16 md:grid md:grid-cols-3 md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden">
+        <Reveal className="-mx-4 mt-8 flex snap-x snap-mandatory scroll-px-4 gap-5 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:-mx-8 sm:mt-12 sm:scroll-px-8 sm:px-8 md:mx-0 md:mt-16 md:grid md:grid-cols-3 md:overflow-visible md:px-0 md:pb-0 lg:hidden [&::-webkit-scrollbar]:hidden">
           {STEPS.map(({ number, title, illustration: Illustration, body, borderAnim }) => (
             <div
               key={number}
@@ -142,7 +155,15 @@ export function HowItWorks() {
           ))}
         </Reveal>
 
-        <Reveal className="mt-8 flex sm:mt-14">
+        {/* From lg the three cards become a stepper: the list drives a stage
+            where the step's card steps forward (see how-it-works-stepper). */}
+        <Reveal className="mt-14 max-lg:hidden">
+          <HowItWorksStepper
+            steps={STEPS.map(({ number, title, body }) => ({ number, title, body }))}
+          />
+        </Reveal>
+
+        <Reveal className="mt-8 flex sm:mt-14 lg:hidden">
           <PrismButtonOutline href="https://console.prisma.io/sign-up">
             Get started free
           </PrismButtonOutline>
