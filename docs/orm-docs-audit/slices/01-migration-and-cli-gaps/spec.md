@@ -38,7 +38,8 @@ File: `orm/migrations/the-migration-graph.mdx`, section "Name important states w
 | `migration new --from` | a hash, or a prefix of one, that an existing migration ends at |
 | `migration ref set <name> <contract>` | a hash, a hash prefix, a ref name, a migration directory name, or `<dir>^` |
 | `migration status --from`, `--to` | a hash, a hash prefix, a ref name, a migration directory name, `<dir>^`, or `@empty` |
-| `db migrate --to` | a hash, a hash prefix, a ref name, a migration directory name, `<dir>^`, `@contract`, or `@empty` |
+| `db migrate --to` | a hash, a hash prefix, a ref name, a migration directory name, `<dir>^`, or `@empty` |
+| `db migrate --show --to` | the same, and `@contract` |
 | `db migrate --show --from` | a hash, a hash prefix, a ref name, a migration directory name, `<dir>^`, `@contract`, `@db`, or `@empty` |
 | `db update --to` | a hash, a hash prefix, a ref name, a migration directory name, or `<dir>^` |
 | `db sign [contract]`, `--contract` | a hash, a hash prefix, a ref name, a migration directory name, or `<dir>^` |
@@ -118,7 +119,7 @@ The repository `prisma/prisma` was renamed `prisma/orm`; the old name works only
 
 Match each option row to the E3 table:
 
-- `cli/db-migrate.mdx`: `--to` row, remove `./path`, add `@contract` and `@empty`; `--from` row, list the forms from the E3 table.
+- `cli/db-migrate.mdx`: `--to` row, remove `./path`, add `@empty`, and say that with `--show` it also accepts `@contract`; `--from` row, list the forms from the E3 table.
 - `cli/db-update.mdx`: `--to` row, remove `./path`, add `<dir>^`.
 - `cli/db-sign.mdx`: the `[contract]` row and the `--contract` row both list the forms from the E3 table. Delete "Also accepts the `<dir>^` and `./path` forms that the positional argument does not"; the positional argument accepts `<dir>^` too.
 - `cli/migration-plan.mdx`: `--from` row, remove `./path`.
@@ -132,14 +133,14 @@ Every change is a sentence, a table, or a table row on the migration pages and t
 
 **In:** the eleven gaps above and the contract reference rows on five CLI pages; the generator script and the two error reference workflows for E11, and regenerating `orm/reference/error-reference.mdx`.
 
-**Out:** anything under `v6/` or `v7/`; the text of individual error entries on `orm/reference/error-reference.mdx`, which is generated from `docs/reference/error-reference.md` in prisma/orm and is fixed there (item D17 in `changes.md`); the CLI's help text and `migration status` behaviour, which prisma/orm is fixing in a separate pull request; the restructure (section A); new pages (section C); cross-linking the two error reference pages (item A8).
+**Out:** anything under `v6/` or `v7/`; the text of individual error entries on `orm/reference/error-reference.mdx`, which is generated from `docs/reference/error-reference.md` in prisma/orm and is fixed there (item D17 in `changes.md`); the CLI's help text and its handling of `@contract`, `@db`, and `@empty`, which prisma/orm#30475 fixes; the restructure (section A); new pages (section C); cross-linking the two error reference pages (item A8).
 
 ## Pre-investigated edge cases
 
 | Edge case | Disposition | Notes |
 | --- | --- | --- |
 | `migration status` and `migration status --from` without a database | `--from` runs with no database; `--to` alone needs one | Verified with an unreachable `--db`: `--from <hash> --to <dir>` returned the pending count. |
-| `@contract` and `@db` on `migration status` | Do not list them for `migration status` | Rejected today (`MIGRATION.REF_NOT_FOUND`) or mishandled; the prisma/orm fix adds them, and the release sync that ships it updates the E3 table. |
+| `@contract` and `@db` on `migration status` and on `db migrate --to` without `--show` | Do not list them there | Rejected today (`MIGRATION.REF_NOT_FOUND`) or mishandled (`--to @db` fails with `MIGRATION.PATH_UNREACHABLE`); prisma/orm#30475 fixes both, and the release sync that ships it updates the E3 table and the CLI rows. |
 | `db update --to @empty` | Do not list `@` tokens for `db update` | Crashes with `CLI.UNEXPECTED` today; the prisma/orm fix rejects them with a structured error. |
 | Dropping only the `public` schema | The E4 text must warn against it | Verified: the marker survives in `prisma_contract`, `db migrate` reports `Already up to date` on an empty database, and `db verify` fails with `CONTRACT.SCHEMA_VERIFICATION_FAILED`. |
 | Hashes in sample output | Capture your own run; do not copy hashes from other pages | Hashes differ per contract; the E7 capture above is a shape reference only. |
