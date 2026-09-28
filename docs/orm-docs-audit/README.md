@@ -10,7 +10,7 @@ Read in this order:
 2. `journeys.md` — twelve jobs those readers come to do, with an entry point, a done criterion, the path through today's pages, and a verdict.
 3. `mental-model.md` — the standalone explanation of Prisma ORM 8 (contract, emit, signature, plans, migrations and refs) that pages get written from.
 4. `ia.md` — the proposed sidebar trees and `/orm` page structure, then the current state and the reasons.
-5. `changes.md` — every proposed change by kind: restructure (A), corrections to existing pages (B; all three PRs merged), new pages (C), ORM changes (D). Leads with the suggested order.
+5. `changes.md` — every proposed change by kind: restructure (A), corrections to existing pages (B; all three PRs merged), new pages (C), ORM changes (D), and small gaps found after the audit (E). Leads with the status, the suggested order, and the decisions that need an owner.
 6. `naming.md` — the "Prisma ORM" naming rule. `plain-language.md` — the rule every page must follow so it reads as written by a person for an ordinary user, with the banned-word list and the reader-review step.
 7. `slice-corrections.md` — how the section B corrections were sliced, and the decisions taken.
 8. `brief-db-ref-on-adoption.md`, `brief-skills-opt-out.md`, `brief-skill-staleness.md` — three ORM-side changes handed to other agents (adoption sets the `db` ref; a skills opt-out in create-prisma; bringing the `prisma-8` agent skill up to rc.9), all since landed; `brief-intermediate-contracts.md` — a docs page to write (C25), landed in #8281. `changes.md` carries the status of each.
