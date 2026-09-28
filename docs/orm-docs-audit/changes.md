@@ -113,7 +113,7 @@ Grouped by where the page lives. Each says what the page is for, what it must co
 
 ## E. Gaps found after the audit
 
-Found by the reader rounds on #8309 and #8310 and rechecked on 2026-09-28; none is fixed yet. Each is small and verified.
+Found by the reader rounds on #8309 and #8310 and rechecked on 2026-09-28; none is fixed yet. Each is small and verified. Specified as one slice in `slices/01-migration-and-cli-gaps/spec.md`, which also removes a `./path` contract reference form that five CLI pages list and no command accepts. Grounding the slice found CLI defects in the same area (`./path` in the CLI's help text, `@contract` and `@db` refused or mishandled by `migration status`, `db migrate`, and `db update`, and `migration status` reporting `Up to date` right after `db update`), fixed in prisma/orm#30475.
 
 - **E1. The migration graph drawing's column symbols.** `orm/migrations/the-migration-graph.mdx` defines `○` and `↑↓⟲` but not `│ │` and `│─╯`, and defers to `--legend`.
 - **E2. `<dir>^` on The migration graph.** Used twice with no explanation or link; it is explained on `rollbacks-and-recovery.mdx`, `cli/migration-plan.mdx`, and `cli/migration-ref.mdx`.
