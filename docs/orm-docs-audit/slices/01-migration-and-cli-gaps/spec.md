@@ -4,7 +4,7 @@ _(Parent project: the Prisma ORM 8 docs audit, `docs/orm-docs-audit/` on branch 
 
 ## At a glance
 
-One prisma/web pull request that fixes eleven small, verified gaps on the Prisma ORM 8 migration pages and CLI reference pages. Each gap is a place where a reader meets a symbol, token, term, or hash the page never explains, or a command the page tells them to run without showing it. The same pull request corrects the contract reference forms listed on five CLI pages: they advertise a `./path` form that no command accepts, and two of them omit `<dir>^` where it works. Every fact below was checked on 2026-09-28 by running `prisma@8.0.0-rc.17` with `@prisma/orm-postgres@8.0.0-rc.12` against PostgreSQL 15.
+One prisma/web pull request that fixes twelve small, verified gaps on the Prisma ORM 8 migration pages and CLI reference pages. Each gap is a place where a reader meets a symbol, token, term, or hash the page never explains, or a command the page tells them to run without showing it. The same pull request corrects the contract reference forms listed on five CLI pages: they advertise a `./path` form that no command accepts, and two of them omit `<dir>^` where it works. Every fact below was checked on 2026-09-28 by running `prisma@8.0.0-rc.17` with `@prisma/orm-postgres@8.0.0-rc.12` against PostgreSQL 15.
 
 ## Terms used in this spec
 
@@ -115,6 +115,16 @@ The repository `prisma/prisma` was renamed `prisma/orm`; the old name works only
 - `apps/docs/scripts/generate-error-reference.mjs`: the `orm` target's `sourceRepo` is `"prisma/prisma"`. Change it to `"prisma/orm"`, together with the comment at the top of the file and the intro sentence that names the repository.
 - `.github/workflows/sync-error-reference-docs.yml` and `.github/workflows/error-reference-check.yml`: change `repository: prisma/prisma` to `repository: prisma/orm`, and `prisma/prisma` to `prisma/orm` in step names and comments. Keep `path: prisma-src`, so the scripts' `--source` paths do not change. Then regenerate `orm/reference/error-reference.mdx` with the script, the way `.github/workflows/sync-error-reference-docs.yml` runs it, and confirm the only change to that page is the repository name. The `cli` target (`prisma/prisma-cli`) is correct; leave it.
 
+### E12. Remove links to examples in prisma/orm
+
+`examples/` in prisma/orm exists for end-to-end tests, not for readers. Docs never link to it.
+
+- `orm/extensions/using-extensions.mdx`: delete the "runnable example" link in the Supabase paragraph and the sentence that links a runnable example for pgvector, PostGIS, ParadeDB, and Supabase.
+- `orm/migrations/editing-a-migration.mdx` and `orm/reference/migration-api.mdx`: delete the link to the retail-store `migration.ts`. If the surrounding text depends on seeing that file, show the relevant lines on the page instead, taken from the file at prisma/orm `main` and checked against the published `@prisma/orm-mongo`.
+- `orm/migrations/the-migration-graph.mdx`: delete the section "Try it on real fixtures".
+
+After the change, `git grep -nE "github.com/prisma/(orm|prisma)/(tree|blob)/[^ )]*examples" -- apps/docs/content/docs` returns nothing outside `v6/` and `v7/`.
+
 ### Contract reference forms on the CLI pages
 
 Match each option row to the E3 table:
@@ -131,7 +141,7 @@ Every change is a sentence, a table, or a table row on the migration pages and t
 
 ## Scope
 
-**In:** the eleven gaps above and the contract reference rows on five CLI pages; the generator script and the two error reference workflows for E11, and regenerating `orm/reference/error-reference.mdx`.
+**In:** the twelve gaps above and the contract reference rows on five CLI pages; the generator script and the two error reference workflows for E11, and regenerating `orm/reference/error-reference.mdx`.
 
 **Out:** anything under `v6/` or `v7/`; the text of individual error entries on `orm/reference/error-reference.mdx`, which is generated from `docs/reference/error-reference.md` in prisma/orm and is fixed there (item D17 in `changes.md`); the CLI's help text and its handling of `@contract`, `@db`, and `@empty`, which prisma/orm#30475 fixes; the restructure (section A); new pages (section C); cross-linking the two error reference pages (item A8).
 
