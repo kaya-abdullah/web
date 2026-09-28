@@ -22,12 +22,11 @@ Status as of 2026-09-28.
 
 Proposed on 2026-09-28, for discussion.
 
-1. **Release syncs** as each release candidate ships: #8336 for rc.13.
-2. **Section E** in one pull request: small, verified gaps on the migration pages and the CLI reference, plus the D17 lines in prisma/orm's `docs/reference/error-reference.md` that the site's error reference is generated from.
-3. **The restructure** (A1, A5, A3, A6, A8) as one piece of work, with C2 and C3 as two of its four doors.
-4. **C18 and C7**, now that both are decided; C1's "not in Prisma ORM 8 yet" list changes only when D4's APIs are built.
-5. **The remaining new pages**: C22, C9, C8, C6, C10 (with draft #8131), C19, C17, and C23.
-6. **ORM side**, in order of how badly each hurts a reader: D10, D9, D15, D13, D12, D7, D18, D11, D5's `public`-only inference, D17, the Node range.
+1. **Section E** in one pull request: small, verified gaps on the migration pages and the CLI reference, plus the D17 lines in prisma/orm's `docs/reference/error-reference.md` that the site's error reference is generated from.
+2. **The restructure** (A1, A5, A3, A6, A8) as one piece of work, with C2 and C3 as two of its four doors.
+3. **C18 and C7**, now that both are decided; C1's "not in Prisma ORM 8 yet" list changes only when D4's APIs are built.
+4. **The remaining new pages**: C22, C9, C8, C6, C10 (with draft #8131), C19, C17, and C23.
+5. **ORM side**, in order of how badly each hurts a reader: D10, D9, D15, D13, D12, D7, D18, D11, D5's `public`-only inference, D17, the Node range.
 
 ## Decisions needed, and from whom
 
