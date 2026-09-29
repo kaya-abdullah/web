@@ -47,7 +47,7 @@ Pages: `(index)/prisma-orm/quickstart/postgresql.mdx` and `mongodb.mdx`, unchang
 
 New pages `(index)/prisma-orm/quickstart/existing-app/postgresql.mdx` and `mongodb.mdx`. The reader has a project directory with a `package.json` and an empty database, or a connection string for one. Steps, each with the command and the output you capture yourself:
 
-1. `npx prisma@latest orm init` with the flags for the target, and what it writes, including `src/prisma/db.ts`, shown in full.
+1. `npx prisma@latest orm init --yes --target <target> --authoring psl --write-env` (without `--yes` it still prompts), and what it writes, including `src/prisma/db.ts`, shown in full.
 2. Set the connection string. Link `npx create-db@latest` for a reader with no database at all.
 3. Edit the starter contract: one model.
 4. `npx prisma contract emit`.
@@ -56,7 +56,7 @@ New pages `(index)/prisma-orm/quickstart/existing-app/postgresql.mdx` and `mongo
 7. Change the contract and apply it: `contract emit`, `migration plan --name <name>`, `db migrate --advance-ref db`.
 8. Next steps.
 
-Commands are for Node.js with npm. One note says what differs on Bun. The MongoDB page follows the same steps with the MongoDB commands and leaves out anything PostgreSQL-only.
+Commands are for Node.js with npm. The pages say nothing about Bun: installing with Bun fails on the current release (D21 in `changes.md`). The first time a command prints the "Prisma agent skills are out of date" notice, one sentence says what it is and that `npx prisma@latest init` installs the skills; output blocks leave the notice out. The MongoDB page follows the same steps with the MongoDB commands and leaves out anything PostgreSQL-only.
 
 ### I have a database already (extended)
 
@@ -67,7 +67,9 @@ Pages: `(index)/prisma-orm/add-to-existing-project/postgresql.mdx` and `mongodb.
 - The second migration: after `migration plan`, apply with `npx prisma db migrate --advance-ref db`, with output.
 - A link to the no-database page for a reader whose database is empty.
 
-The MongoDB page gains the link and the second migration.
+The MongoDB page gains the link only. Adopting an existing MongoDB collection cannot reach a signed database on the current release (D20 in `changes.md`), so the page shows no signing and no second migration.
+
+The PostgreSQL page also says that `contract emit` on an inferred contract prints `PN_EXACT_NAME_BODY_COMPARISON` warnings for policies, checks, and indexes with SQL bodies, and that they are expected.
 
 ### The four starting points on `/prisma-orm`
 
