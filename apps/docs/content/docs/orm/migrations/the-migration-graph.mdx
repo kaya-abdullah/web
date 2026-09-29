@@ -42,6 +42,8 @@ Keep `--advance-ref db` on that command in development, so that your next `migra
 | **Marker** | The record in the database of which contract state it matches. Reading it does not check the tables. |
 | **Ledger** | The database's own list of every migration applied to it, and when each ran. |
 | **Ref** | A name for a contract state, like `prod`, stored as a file in `migrations/app/refs/`. |
+| **Contract reference** | The text a command accepts to name a contract state, such as a hash prefix or a ref name. [Contract references each command accepts](#contract-reference-forms) lists the forms. |
+| **`<dir>^`** | A migration directory name followed by `^`. It names the contract state before that migration, while the directory name alone names the state after it. |
 | **Contract space** | A separate migration history with its own directory in `migrations/`. Your app's is `migrations/app/`. Each [Prisma ORM extension package](/orm/extensions/using-extensions) that ships migrations, such as pgvector support, has its own, and one `db migrate` run applies all of them, as [Extension spaces](/orm/migrations/applying-a-migration#extension-spaces) shows. |
 
 ## How it works
@@ -133,7 +135,7 @@ Some states you only need to refer to once, so Prisma ORM reserves a few tokens 
 - `@db`: the contract state in the marker of the database you are connected to. The `db` ref is a file, so it can name a different state.
 - `@empty`: the empty database, before any migration.
 
-### Which forms each command accepts [#contract-reference-forms]
+### Contract references each command accepts [#contract-reference-forms]
 
 Not every command accepts every form. This table lists what each one accepts:
 
@@ -197,7 +199,7 @@ Nothing above changes with your database, because the graph and the commands are
 
 `npx prisma migration new` writes an empty migration for a change you write yourself, such as a data update. The migration always ends at the contract state in your current `contract.json`. Without `--from`, it starts where `migration plan` would: at the `db` ref, or at an empty database when there are no migrations and no `db` ref yet. When there are migrations but no `db` ref, it stops and asks for `--from`. [`migration new`](/cli/migration-new) lists every case.
 
-Unlike the `--from` of `migration plan`, the `--from` of `migration new` takes only a contract hash that an existing migration ends at, which is the `to` hash in that migration's `migration.json`. You can shorten the hash to its first characters, such as the 7 that `migration graph` shows, as long as they match only one migration's `to` hash. It does not take a ref name, a migration directory name, or an `@` name such as `@db`. [Which forms each command accepts](#contract-reference-forms) compares it with the other commands. So to start from `e377d00` in the drawing above, run `npx prisma migration new --name backfill --from e377d00`. Because `e377d00` is also the `@contract` state, that migration starts and ends at the same state, which is what a data-only migration does.
+Unlike the `--from` of `migration plan`, the `--from` of `migration new` takes only a contract hash that an existing migration ends at, which is the `to` hash in that migration's `migration.json`. You can shorten the hash to its first characters, such as the 7 that `migration graph` shows, as long as they match only one migration's `to` hash. It does not take a ref name, a migration directory name, or an `@` name such as `@db`. [Contract references each command accepts](#contract-reference-forms) compares it with the other commands. So to start from `e377d00` in the drawing above, run `npx prisma migration new --name backfill --from e377d00`. Because `e377d00` is also the `@contract` state, that migration starts and ends at the same state, which is what a data-only migration does.
 
 ## Release-candidate limitations
 

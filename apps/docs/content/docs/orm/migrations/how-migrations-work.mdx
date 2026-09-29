@@ -148,7 +148,7 @@ The migration commands are part of the [Prisma ORM CLI](/cli) and run as `npx pr
 | `migration graph`         | Draw your [migration history](/orm/migrations/the-migration-graph) as a graph |
 | `migration check`         | Check that each migration's `migrationHash` still matches its files and no files are missing, before you commit a hand edit |
 
-`<target>` is a migration's directory name, its path under `migrations/app/`, or the first 6 or more characters of its `migrationHash`. You find a migration's `migrationHash` in its `migration.json`, and `migration show` prints it on the `hash:` line. It is the migration's own hash, not a contract hash, so you cannot pass it to `--from` or `--to`, which take a contract hash.
+`<target>` is a migration's directory name, its path under `migrations/app/`, or the first 6 or more characters of its `migrationHash`. You find a migration's `migrationHash` in its `migration.json`, and `migration show` prints it on the `hash:` line. It is the migration's own hash, not a contract hash, so you cannot pass it to `--from` or `--to`, which take a contract reference, such as a contract hash prefix. [Contract references each command accepts](/orm/migrations/the-migration-graph#contract-reference-forms) lists the forms.
 
 The commands in this table connect to a database:
 
@@ -170,7 +170,7 @@ If you used Prisma ORM 7, these commands replace its migrate commands:
   npx prisma db migrate --advance-ref db
   ```
 
-  `dropdb` and `createdb` are PostgreSQL's own command-line tools. They do not read `DATABASE_URL`, so pass them the host, port, and user with `-h`, `-p`, and `-U`, using the same values as in your `DATABASE_URL`. `db migrate` does not run a seed script, so run yours afterwards.
+  `dropdb` and `createdb` are PostgreSQL's own command-line tools. They do not read `DATABASE_URL`. They read the server, user, and password from the `PGHOST`, `PGPORT`, `PGUSER`, and `PGPASSWORD` environment variables, which are PostgreSQL's standard ones. `db migrate` does not run a seed script, so run yours afterwards.
 
   To create the tables your contract declares without running the migrations, replace the last line with [`npx prisma db init`](/cli/db-init).
 
