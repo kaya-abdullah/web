@@ -8,6 +8,8 @@ Scope: the Getting Started > Prisma ORM subtree, the ORM > Introduction group, a
 
 ### Getting Started > Prisma ORM
 
+_The labels in this tree were replaced on 2026-09-29 by statements the reader makes about their starting point; `restructure-plan.md` has the decided tree._
+
 ```
 Prisma ORM
     Introduction to Prisma ORM                      human content first, agent prompt last
