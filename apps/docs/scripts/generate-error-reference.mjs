@@ -5,7 +5,7 @@
 //   node scripts/generate-error-reference.mjs [--target orm|cli] [--source <path-to-error-reference.md>]
 //
 // Targets:
-//   orm (default)  prisma/prisma       -> content/docs/orm/reference/error-reference.mdx
+//   orm (default)  prisma/orm          -> content/docs/orm/reference/error-reference.mdx
 //   cli            prisma/prisma-cli   -> content/docs/cli/error-reference.mdx
 //
 // Without --source, the file is fetched from raw.githubusercontent.com.
@@ -91,12 +91,12 @@ function applyCliNamingStandard(body) {
 
 export const TARGETS = {
   orm: {
-    sourceRepo: "prisma/prisma",
+    sourceRepo: "prisma/orm",
     output: join(HERE, "../content/docs/orm/reference/error-reference.mdx"),
     applyNamingStandard: applyOrmNamingStandard,
     hostedIntro:
       "Each code anchors as `#<CODE>` — the exact fragment every emitted error carries in its " +
-      "`docsUrl`. This page is generated from the canonical reference in the `prisma/prisma` " +
+      "`docsUrl`. This page is generated from the canonical reference in the `prisma/orm` " +
       "repository, whose CI requires every code in production source to be documented before it ships.",
     frontmatter: `---
 title: Error reference

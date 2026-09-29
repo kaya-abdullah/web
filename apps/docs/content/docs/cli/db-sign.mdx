@@ -22,9 +22,9 @@ npx prisma db sign --db "$DATABASE_URL"
 
 | Argument or option | What it does |
 | --- | --- |
-| `[contract]` | Signs against a specific contract reference (hash, prefix, ref name, or migration directory name) instead of the emitted contract. |
+| `[contract]` | Signs against a specific contract state instead of the emitted contract. Accepts a [contract reference](/orm/migrations/the-migration-graph#contract-reference-forms): a hash, a hash prefix, a ref name, a migration directory name, or `<dir>^`. |
 | `--db <url>` | Connects to the database. |
-| `--contract <contract>` | The contract reference as a flag. Also accepts the `<dir>^` and `./path` forms that the positional argument does not. |
+| `--contract <contract>` | The contract reference as a flag. Accepts the same forms as `[contract]`. |
 | `--advance-ref <name>` | Advances this ref instead of `db` after a successful signature. |
 | `--no-advance-ref` | Signs without writing any ref or snapshot. Cannot be combined with `--advance-ref`. |
 | `--config <path>` | Read this config file instead of `./prisma.config.ts`. |
