@@ -77,7 +77,7 @@ npx prisma migration graph
 1 space(s), 5 contract(s), 4 migration(s)
 ```
 
-Read it from the bottom up, because the earliest state is the bottom row and every row above it is a later one. Each `↑` row shows a migration's directory name, its start and end hashes, and its operation count. The lines on the left are drawn in columns, one column for each branch of the history. A `│` continues a column upwards past rows that belong to another column. The `│─╯` row shows where the two columns split: Bob's migration, in the right-hand column, and Alice's, in the left-hand column, both start from `4437973`.
+Read it from the bottom up, because the earliest state is the bottom row and every row above it is a later one. Each `↑` row shows a migration's directory name, its start and end hashes, and its operation count. The lines on the left are drawn in columns, one column for each branch of the history. Where a row belongs to one branch, the other branch's column shows a `│`, so you can follow that column up the page. The `│─╯` row shows where the two columns split: Bob's migration, in the right-hand column, and Alice's, in the left-hand column, both start from `4437973`.
 
 To print a key to the symbols in the rows, run `npx prisma migration graph --legend`. The key explains `○`, the arrows, `∅`, the `@contract` and `@db` labels, and ref labels such as `(prod)`. It also explains `✓`, which means applied, and `⧗`, which means pending, and you see those two in `migration status` output.
 

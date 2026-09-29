@@ -40,7 +40,7 @@ npx prisma migration plan --name add_users_table
 | Option | What it does |
 | --- | --- |
 | `--name <slug>` | Sets the migration directory name suffix. |
-| `--from <contract>` | Uses a specific starting contract state instead of the `db` ref. Accepts a [contract reference](/orm/migrations/the-migration-graph#contract-reference-forms): a hash, a hash prefix, a ref name, a migration directory name, `<dir>^`, or `@empty`. `migration plan` is offline, so `@db` and `@contract` are not accepted here. |
+| `--from <contract>` | Uses a specific starting contract state instead of the `db` ref. Accepts a [contract reference](/orm/migrations/the-migration-graph#contract-reference-forms): a hash, a hash prefix, a ref name, a migration directory name, `<dir>^`, or `@empty`. `@db` is not accepted here, because `migration plan` is offline and cannot read a database. `@contract` is not accepted either. |
 | `--to <contract>` | Sets the destination contract reference. Defaults to the emitted contract. Accepts the same forms as `--from`, except `@empty`, which is refused as a destination. |
 | `--config <path>` | Read this config file instead of `./prisma.config.ts`. |
 | `--json` | Prints a machine-readable result. |

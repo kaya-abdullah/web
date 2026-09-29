@@ -753,7 +753,7 @@ Use `--json` in every CI step that needs a value back. The `--json` stream ends 
 
 ## Prompt your coding agent
 
-Run [`npx prisma@latest init`](/cli/init) once to install the [Prisma ORM skills](/ai/tools/skills#available-skills-for-prisma-8) for your coding agent and keep them matching your installed packages. `init` only installs the agent skills. You already set up Prisma ORM with `orm init` in step 2.1. Prompts that map to this guide:
+Run [`npx prisma@latest init`](/cli/init) once to install the [Prisma ORM skills](/ai/tools/skills#available-skills-for-prisma-8) for your coding agent and keep them matching your installed packages. `init` and `orm init` are different commands. `orm init` sets up Prisma ORM in a project, and you ran it in [step 2.1](#21-initialize-prisma-orm). `init` installs the agent skills and does not set up Prisma ORM. Prompts that map to this guide:
 
 - "Using the prisma-8 skill, add a `Comment` model to the contract, plan a migration for it, and update the seed script."
 - "Add a test job to the preview workflow that runs `npm test` against the provisioned database after the seed step."

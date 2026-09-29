@@ -170,7 +170,7 @@ If you used Prisma ORM 7, these commands replace its migrate commands:
   npx prisma db migrate --advance-ref db
   ```
 
-  `dropdb` and `createdb` are PostgreSQL's own command-line tools. They do not read `DATABASE_URL`, so tell them which server and user to connect to with their own options, such as the `PGHOST`, `PGPORT`, and `PGUSER` environment variables. `db migrate` does not run a seed script, so run yours afterwards.
+  `dropdb` and `createdb` are PostgreSQL's own command-line tools. They do not read `DATABASE_URL`, so pass them the host, port, and user with `-h`, `-p`, and `-U`, using the same values as in your `DATABASE_URL`. `db migrate` does not run a seed script, so run yours afterwards.
 
   To create the tables your contract declares without running the migrations, replace the last line with [`npx prisma db init`](/cli/db-init).
 
