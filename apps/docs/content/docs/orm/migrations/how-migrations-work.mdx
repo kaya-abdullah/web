@@ -106,7 +106,7 @@ After `migration plan`, commit the new migration directory, any new directories 
 - the contract hash it starts `from`
 - the contract hash it ends at, `to`
 - when it was created
-- its own hash, `migrationHash`, which is computed from the rest of `migration.json` and from `ops.json`, so it changes when either file changes. `npx prisma migration check` computes it again to find files that were edited.
+- its own hash, `migrationHash`, which `npx prisma migration check` uses to find a `migration.json` or `ops.json` that was edited by hand. The hash is computed from the rest of `migration.json` and from `ops.json`, so it changes when either file changes.
 
 Do not edit `migration.json` or `ops.json` by hand, because both are written for you from `migration.ts`. Edit `migration.ts` and recompile instead.
 
@@ -148,7 +148,7 @@ The migration commands are part of the [Prisma ORM CLI](/cli) and run as `npx pr
 | `migration graph`         | Draw your [migration history](/orm/migrations/the-migration-graph) as a graph |
 | `migration check`         | Check that each migration's `migrationHash` still matches its files and no files are missing, before you commit a hand edit |
 
-`<target>` is a migration's directory name, its path under `migrations/app/`, or the first 6 or more characters of its `migrationHash`. That is the migration's own hash, not a contract hash: `migration show` takes a prefix of a `migrationHash`, while `--from` and `--to` take a prefix of a contract hash.
+`<target>` is a migration's directory name, its path under `migrations/app/`, or the first 6 or more characters of its `migrationHash`. You find a migration's `migrationHash` in its `migration.json`, and `migration show` prints it on the `hash:` line. It is the migration's own hash, not a contract hash, so you cannot pass it to `--from` or `--to`, which take a contract hash.
 
 The commands in this table connect to a database:
 
@@ -170,7 +170,20 @@ If you used Prisma ORM 7, these commands replace its migrate commands:
   npx prisma db migrate --advance-ref db
   ```
 
-  To create what your contract declares without running the migrations, run `npx prisma db init` in place of the last line. `db migrate` does not run a seed script, so run yours afterwards. If you cannot drop the database, drop both the `public` schema and the `prisma_contract` schema. Dropping only `public` leaves the marker in the database, so `db migrate` reports `Already up to date` on a database with no tables, and `db verify` fails.
+  `dropdb` and `createdb` are PostgreSQL's own command-line tools. They do not read `DATABASE_URL`, so tell them which server and user to connect to with their own options, such as the `PGHOST`, `PGPORT`, and `PGUSER` environment variables. `db migrate` does not run a seed script, so run yours afterwards.
+
+  To create the tables your contract declares without running the migrations, replace the last line with [`npx prisma db init`](/cli/db-init).
+
+  If you cannot drop the database, drop both the `public` schema and the `prisma_contract` schema, and then run the same `db migrate` or `db init` command:
+
+  ```sql
+  DROP SCHEMA public CASCADE;
+  DROP SCHEMA prisma_contract CASCADE;
+  ```
+
+  You do not need to create `public` again, because `db migrate` and `db init` create it.
+
+  Do not drop only `public`, because the marker is in `prisma_contract` and stays in the database. `db migrate` then reports `Already up to date` on a database with no tables, while `db verify` fails.
 - `migrate diff` becomes `migration show <dir>`, which prints one migration, or `db update --dry-run`, which shows the operations that would make a database match the contract.
 - Baselining, marking an existing database as already migrated, is now [`npx prisma db sign`](/cli/db-sign), which checks that the tables match your contract before it writes the marker. For a database Prisma ORM 7 migrated, follow [Prisma ORM 7 to 8 (PostgreSQL)](/guides/upgrade-prisma-orm/postgresql#4-transfer-migration-ownership).
 

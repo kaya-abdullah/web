@@ -29,7 +29,9 @@ npx prisma migration status --db "$DATABASE_URL"
 | `--config <path>` | Read this config file instead of `./prisma.config.ts`. |
 | `--json` | Prints a machine-readable result. |
 
-A contract space is a separate migration history. Your own migrations are in the `app` space, in `migrations/app/`, and each extension package that ships migrations, such as pgvector, has its own. Pass `--space app` to see only your own migrations.
+Prisma ORM keeps one migration history for your own models, called the `app` space, in `migrations/app/`, and one for each [extension package](/orm/extensions/using-extensions) that ships its own migrations, such as pgvector. Each of these histories is a contract space. Pass `--space app` to see only your own migrations.
+
+A ref name is a name you gave a contract state with [`migration ref set`](/cli/migration-ref), such as `prod`. `<dir>^` is a migration directory name followed by `^`, and it names the contract state before that migration, while the directory name alone names the state after it. [Which forms each command accepts](/orm/migrations/the-migration-graph#contract-reference-forms) lists the forms for every command.
 
 ## Examples
 
@@ -59,7 +61,9 @@ With one migration applied and one pending, `npx prisma migration status` prints
 ⚠ 1 pending — run `prisma db migrate --to a4c3fa7fc3b2`
 ```
 
-Read the drawing from the bottom up. [Check before, preview, then apply](/orm/migrations/applying-a-migration#check-before-preview-then-apply) explains each row and each label.
+Read the drawing from the bottom up, because the earliest state is the bottom row. `∅` is the empty database, before any migration. `@contract` marks the contract in `contract.json`, and `@db` marks the contract state that the database's marker records. `(db)` is the `db` [ref](/cli/migration-ref), a file in `migrations/app/refs/` that names the contract state you last applied in development. [Check before, preview, then apply](/orm/migrations/applying-a-migration#check-before-preview-then-apply) explains each row and each label in more detail.
+
+The last line suggests the command to run next. It names the pending state by the first 12 characters of its hash, `a4c3fa7fc3b2`, which is the same hash the drawing shortens to 7 characters, `a4c3fa7`.
 
 With `--db`, status reads the marker from the database and compares it with the target. With `--from`, it starts from the state you name instead and needs no database.
 
@@ -73,7 +77,7 @@ With `--json`, the command prints one `"kind": "result"` line. Inside its `envel
 
 The exit code is 0 even when `diagnostics` is not empty. A non-zero exit code means the command itself failed, for example with `MIGRATION.REF_NOT_FOUND` when `--to` names a ref that does not exist.
 
-When the command warns with `MIGRATION.MARKER_NOT_IN_HISTORY`, the marker in the database records a contract state that is not in your migration history. The next `db migrate` on that database fails with `MIGRATION.MARKER_MISMATCH`, and [Drift](/orm/migrations/rollbacks-and-recovery#drift-when-the-database-isnt-where-migrations-left-it) says what to do then.
+When the command warns with `MIGRATION.MARKER_NOT_IN_HISTORY`, the marker in the database records a contract state that is not in your migration history. This situation is called drift, and the next `db migrate` on that database fails with `MIGRATION.MARKER_MISMATCH`. To fix it, see [Drift](/orm/migrations/rollbacks-and-recovery#drift-when-the-database-isnt-where-migrations-left-it).
 
 The `migration` group has three more read-only views: `migration graph` draws the chain of migrations, `migration log` lists what has run, and `migration list` lists the migrations on disk. Run each with `--help` for details.
 

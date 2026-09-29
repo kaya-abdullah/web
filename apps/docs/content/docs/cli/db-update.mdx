@@ -27,6 +27,8 @@ npx prisma db update --db "$DATABASE_URL"
 | `--config <path>` | Read this config file instead of `./prisma.config.ts`. |
 | `--json` | Prints a machine-readable result. |
 
+A ref name is a name you gave a contract state with [`migration ref set`](/cli/migration-ref), such as `prod`. `<dir>^` is a migration directory name followed by `^`, and it names the contract state before that migration, while the directory name alone names the state after it. [Which forms each command accepts](/orm/migrations/the-migration-graph#contract-reference-forms) lists the forms for every command.
+
 ## How the db ref moves
 
 Run without `--db`, `db update` takes the connection from `db.connection` in `prisma.config.ts` and advances the [ref](/cli/migration-ref) named `db` to the contract it just applied. Pass `--db` and that advancement is suppressed, even when the URL is the same one the config holds. Pass `--advance-ref db` alongside `--db` to get it back.

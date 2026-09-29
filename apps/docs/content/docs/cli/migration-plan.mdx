@@ -45,6 +45,8 @@ npx prisma migration plan --name add_users_table
 | `--config <path>` | Read this config file instead of `./prisma.config.ts`. |
 | `--json` | Prints a machine-readable result. |
 
+A ref name is a name you gave a contract state with [`migration ref set`](/cli/migration-ref), such as `prod`. `<dir>^` is a migration directory name followed by `^`, and it names the contract state before that migration, while the directory name alone names the state after it. [Which forms each command accepts](/orm/migrations/the-migration-graph#contract-reference-forms) lists the forms for every command.
+
 ## Recommended flow
 
 ```npm
