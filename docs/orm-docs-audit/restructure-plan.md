@@ -25,8 +25,8 @@ PostgreSQL and MongoDB are a choice at the top of each page, not extra sidebar l
 
 | Slice | Covers | Spec |
 | --- | --- | --- |
-| 02 | The Quickstart group, the new no-database pages, the extended existing-database pages, and the four starting points on `/prisma-orm` (A1, C2, C3) | `slices/02-quickstart-by-starting-point/spec.md` |
-| 03 | `/orm` rebuilt; the docs root page gets a row of the four starting points; "What changed for developers" and the blog list leave `/orm` (A1, A5) | `slices/03-orm-page-and-root-row/spec.md` |
+| 02 | The Quickstart group, the new no-database pages, the extended existing-database pages, and the four starting points on `/prisma-orm` (A1, C2, C3) | `slices/02-quickstart-by-starting-point/spec.md`; open as prisma/web#8350 |
+| 03 | `/orm` rebuilt; the docs root page gets a row of the four starting points; "What changed for developers" and the blog list leave `/orm` (A1, A5) | `slices/03-orm-page-and-root-row/spec.md`; work in progress on branch `docs/orm-page-and-root-row` |
 | 04 | "Use with your agent" moves below the human steps on the entry pages and the twelve framework and runtime guides (A3) | written when 03 merges |
 | 05 | `orm/core-concepts.mdx` rewritten from `mental-model.md` (A6) | written when 04 merges |
 | 06 | The two error references name each other and say which codes live where, in the generator (A8) | written when 05 merges |
