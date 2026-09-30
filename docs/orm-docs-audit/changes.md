@@ -28,7 +28,7 @@ Proposed on 2026-09-28, for discussion.
 2. **The restructure** (A1, A5, A3, A6, A8) as one piece of work, with C2 and C3 as two of its four doors.
 3. **C18 and C7**, now that both are decided; C1's "not in Prisma ORM 8 yet" list changes only when D4's APIs are built.
 4. **The remaining new pages**: C22, C9, C8, C6, C10 (with draft #8131), C19, C17, and C23.
-5. **ORM side**, in order of how badly each hurts a reader: D10, D9, D15, D13, D12, D7, D18, D11, D5's `public`-only inference, D17, the Node range.
+5. **ORM side**, in order of how badly each hurts a reader: D10, D9, D15, D13, D12, D7, D18, D11, D5's `public`-only inference, D17, the Node range, and D31 (rewrite the intro of `docs/reference/error-reference.md` in prisma/orm and prisma/prisma-cli for readers, so the site's generator stops patching it; the file itself stays, because the hosted page is generated from it and the repository's CI checks new codes against it).
 
 ## Decisions needed, and from whom
 
