@@ -29,7 +29,7 @@ PostgreSQL and MongoDB are a choice at the top of each page, not extra sidebar l
 | 03 | `/orm` rebuilt; the docs root page gets a row of the four starting points; "What changed for developers" and the blog list leave `/orm` (A1, A5) | `slices/03-orm-page-and-root-row/spec.md`; open as prisma/web#8351, stacked on #8350 |
 | 04 | "Use with your agent" moves below the human steps on the entry pages and the twelve framework and runtime guides (A3) | `slices/04-agent-prompts-last/spec.md`; open as prisma/web#8352, stacked on #8350 |
 | 05 | `orm/core-concepts.mdx` rewritten from `mental-model.md` (A6) | `slices/05-core-concepts-from-mental-model/spec.md` |
-| 06 | The two error references name each other and say which codes live where, in the generator (A8) | `slices/06-error-references-link/spec.md` |
+| 06 | The two error references name each other and say which codes live where, in the generator (A8) | `slices/06-error-references-link/spec.md`; open as prisma/web#8353 |
 
 Slice 01 is the migration and CLI gaps, delegated separately.
 
