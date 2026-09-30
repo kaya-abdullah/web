@@ -4,7 +4,7 @@ This is the working list of changes to the Prisma ORM 8 documentation, built fro
 
 Item numbers (A1, B11, C9, D4) are stable identifiers used in the audit files and the PRs; some are out of sequence because items were added as they were found. "J1" to "J12" are the reader jobs defined in `journeys.md`. Source paths are in `prisma/orm` at rc.9 unless they start with `create-prisma`.
 
-Status as of 2026-09-28.
+Status as of 2026-09-30.
 
 ## Where things stand
 
@@ -12,11 +12,13 @@ Status as of 2026-09-28.
 
 **Kept current with releases.** rc.10 (#8261, #8262), rc.11 (#8277), and rc.12 (#8317), with rc.12's follow-ups: the `module` settings the upgrade guide recommends (#8319), what a CommonJS project changes after `orm init` (#8329), the default table name change and every page re-run against the release (#8326), and a third reader round (#8328). Scaffold commands pass `--no-deploy` so `npm create prisma` does not deploy before the page says to (#8331). The error reference sync, broken from 2026-09-18 by codes without a dot, works again (#8327). The rc.13 sync is open as #8336 and merges when rc.13 is published.
 
+**In review.** Section E as prisma/web#8348 (2026-09-29). The command names in prisma/orm's `error-reference.md` (part of D17) as prisma/orm#30527. The docs change that prisma/orm#30475 needs, as draft prisma/web#8349: it merges after a published release contains #30475 and its re-check list passes.
+
 **Shipped on the ORM side.** D1, D2 (prisma/orm#30251, rc.10), D3 (create-prisma#96), D6, and D14 (prisma/orm#30250, #30264, #30283). D16 is no longer needed. D4, D5, and D11 are partly fixed; see each item.
 
 **Partly done.** A1: `/prisma-orm` has pages for create-prisma, the quickstart, from scratch, and an existing project, but the sidebar groups them by tool, the empty-database and Prisma 7 starting states have no door, and `/orm` is unchanged. A6: `orm/core-concepts.mdx` is prose but not written from `mental-model.md`; the item lists what it lacks. C2, C3, C6, C7, C8, C10, C17, C18: the facts are on existing pages, but the page each item asks for does not exist; each item says what is left.
 
-**Not started.** A3, A5, A8. C9's Vercel page and shutdown example, C19, C22, C23. Every gap in section E. On the ORM side: D7, D8, D9 (prisma/orm#30370 is open), D10 (prisma/orm#30301 and #30308 are open), D12, D13, D15, D17, D18, and the Node 24.0 to 24.10 range.
+**Not started.** A3, A5, A8. C9's Vercel page and shutdown example, C19, C22, C23. On the ORM side: D7, D8, D9 (prisma/orm#30370 is open), D10 (prisma/orm#30301 and #30308 are open), D12, D13, D15, D17, D18, and the Node 24.0 to 24.10 range.
 
 ## Recommended order for the open work
 
@@ -112,7 +114,7 @@ Grouped by where the page lives. Each says what the page is for, what it must co
 
 ## E. Gaps found after the audit
 
-Found by the reader rounds on #8309 and #8310 and rechecked on 2026-09-28 (E12 was found on 2026-09-28 after the C23 decision); none is fixed yet. Each is small and verified. Specified as one slice in `slices/01-migration-and-cli-gaps/spec.md`, which also removes a `./path` contract reference form that five CLI pages list and no command accepts. Grounding the slice found CLI defects in the same area (`./path` in the CLI's help text, `@contract` and `@db` refused or mishandled by `migration status`, `db migrate`, and `db update`, and `migration status` reporting `Up to date` right after `db update`), fixed in prisma/orm#30475.
+Found by the reader rounds on #8309 and #8310 and rechecked on 2026-09-28 (E12 was found on 2026-09-28 after the C23 decision). Each is small and verified. E1 to E12 are in review as prisma/web#8348, with every command run on `prisma` 8.0.0-rc.19; the evidence is in `slices/01-migration-and-cli-gaps/`. Two cells of the spec's table did not hold on rc.17 or rc.19: `migration plan --to` and `db migrate --to` reject `@empty`, while `db migrate --show --to` accepts it. The pull request follows the CLI. When a release contains prisma/orm#30475, draft prisma/web#8349 updates the same table and rows; its description lists the commands to re-run first. Specified as one slice in `slices/01-migration-and-cli-gaps/spec.md`, which also removes a `./path` contract reference form that five CLI pages list and no command accepts. Grounding the slice found CLI defects in the same area (`./path` in the CLI's help text, `@contract` and `@db` refused or mishandled by `migration status`, `db migrate`, and `db update`, and `migration status` reporting `Up to date` right after `db update`), fixed in prisma/orm#30475.
 
 - **E1. The migration graph drawing's column symbols.** `orm/migrations/the-migration-graph.mdx` defines `○` and `↑↓⟲` but not `│ │` and `│─╯`, and defers to `--legend`.
 - **E2. `<dir>^` on The migration graph.** Used twice with no explanation or link; it is explained on `rollbacks-and-recovery.mdx`, `cli/migration-plan.mdx`, and `cli/migration-ref.mdx`.
@@ -126,6 +128,17 @@ Found by the reader rounds on #8309 and #8310 and rechecked on 2026-09-28 (E12 w
 - **E10. One situation, two codes.** `MIGRATION.MARKER_NOT_IN_HISTORY` from `migration status` and `MIGRATION.MARKER_MISMATCH` from `db migrate` describe the same database; no page links them, and the two error reference entries give different fixes.
 - **E11. The error reference names the wrong source repository.** The header `apps/docs/scripts/generate-error-reference.mjs` writes into `orm/reference/error-reference.mdx` points at `prisma/prisma`; the repository is `prisma/orm`.
 - **E12. Links to examples in prisma/orm.** Four pages send readers to `examples/` in prisma/orm, which exist for end-to-end tests: `orm/extensions/using-extensions.mdx` (the pgvector, PostGIS, ParadeDB, and Supabase demos), `orm/migrations/editing-a-migration.mdx` and `orm/reference/migration-api.mdx` (a `migration.ts` in the retail-store example), and `orm/migrations/the-migration-graph.mdx` (the "Try it on real fixtures" section). Remove each link; where the page needs the code, show it on the page.
+
+Found while delivering E1 to E12, and not fixed by #8348:
+
+- **E13. The contract reference table is on a concept page.** #8348 puts the single table of accepted forms on `orm/migrations/the-migration-graph.mdx`, and five CLI pages link into it. `apps/docs/CLAUDE.md` says reference material belongs under `cli/`. Move it during the restructure.
+- **E14. `cli/init.mdx` does not say that `init` adds `prisma` to `devDependencies`.** The rc.19 help text says it does.
+- **E15. One hand-edited migration file, two codes.** `migration check` reports `MIGRATION.CHECK_HASH_MISMATCH` (exit 4); `db migrate` and `migration status` report `MIGRATION.CONTRACT_SPACE_VIOLATION` (exit 2). No page links them. See D26.
+- **E16. Rollback in production is described three ways.** `rollbacks-and-recovery.mdx` step 4 runs plain `db migrate`; `how-migrations-work.mdx` says CI and production use `db migrate --to <ref>`; the Common tasks table on the graph page says `--to <earlier-ref-or-hash>`. None says whether to move the `prod` ref back first.
+- **E17. The Baselines paragraph on the graph page.** After `db sign`, the `db` ref and `contract.json` name the same state, so a reader cannot see what the next `migration plan` writes.
+- **E18. "Newest migration" on `rollbacks-and-recovery.mdx`.** `--from <newest-migration-dir>` is unclear once the history has branches.
+- **E19. Reader marks on text #8348 did not write.** Two reader rounds left about 50 marks on unchanged text of the pages #8348 touched: `slices/01-migration-and-cli-gaps/reviews/reader-round*.md`, the ones labelled EXISTING.
+- **E20. `prisma/prisma` names that rely on GitHub's redirect.** The repository is `prisma/orm`. Still named the old way in `npx skills add prisma/prisma/skills` on `ai/tools/skills.mdx`, `apps/docs/src/lib/agent-skill.ts`, and `apps/site/src/lib/agent-skills.ts` (whether `npx skills add` accepts `prisma/orm/skills` is an open question below); in the GitHub API URL in `packages/ui/src/hooks/use-star-count.ts` and the star link label in `apps/site/src/components/ecosystem/grid.tsx`; and in a comment in `apps/docs/next.config.mjs`.
 
 ## D. Change the ORM and its tooling
 
@@ -150,6 +163,13 @@ Places where the docs are hard because the tool is. Grouped by who owns the fix.
 - **D20. An existing MongoDB collection cannot be adopted.** Found 2026-09-29 on `prisma` 8.0.0-rc.19 and `@prisma/orm-mongo` 8.0.0-rc.13, against a collection with data and a unique index: `db sign` exits 4 (`missing: users/validator`) and suggests `db update`; `db update` exits 2 with `CLI.CONSENT_TOKEN_UNRESOLVED` ("has no name to confirm") although the URL names the database, with or without `--confirm`, `--db`, or `--yes`; `db init` fails with `MIGRATION.PLANNING_FAILED` ("destructive operation disallowed: Add validator on users"); `migration plan` then `db migrate` fails on `collection.users.create`. The path that should work adds a strict validator (`additionalProperties: false`) to a collection that holds data. Until fixed, the MongoDB existing-database page shows queries only.
 - **D21. `orm init` fails in a project installed with Bun.** Found 2026-09-29: `bunx prisma@latest orm init` exits 5 with `CLI.INIT_EMIT_FAILED` ("A Scope already named Array already exists"), because `prisma@8.0.0-rc.19` depends on `@prisma/cli-engine@0.6.2` while `@prisma/orm-toolchain@8.0.0-rc.13` declares a peer on `0.6.1`, and Bun installs both. npm works. Running a script with `bun script.ts` in an npm-installed project works. Affects the Bun floor decided for C18.
 - **D22. `contract infer` skips other schemas silently.** Found 2026-09-29: a table in a second schema is not read and no message says so. Part of D5's `public`-only item.
+- **D23. `migration status --json` prints `{bin}`.** Found 2026-09-29 on rc.19: `result.summary` and the hints in `result.diagnostics[]` contain the literal `{bin}`. The human output prints `prisma` since `@prisma/cli-engine` 0.6.2.
+- **D24. `migration new --from` accepts a hash prefix shorter than 6 characters.** Found 2026-09-29 on rc.17 and rc.19: `--from 9` works; every other command rejects a 5-character prefix with `MIGRATION.REF_NOT_FOUND`. The docs give 6 as the minimum for every command.
+- **D25. `migration status` with `@db`.** Found 2026-09-29 on rc.17 and rc.19: `--from @db` exits 0 and prints `Up to date` with a migration pending; `--to @db` warns about a target named `()`. prisma/orm#30475 changes how `migration status` resolves `@db`; recheck when it ships.
+- **D26. A hand-edited migration file.** Found 2026-09-29 on rc.19: `db migrate --show` prints a route through a migration whose `ops.json` was edited, while `db migrate` refuses it. The same edit gets `MIGRATION.CHECK_HASH_MISMATCH` from `migration check` and `MIGRATION.CONTRACT_SPACE_VIOLATION` from `db migrate` and `migration status`. See E15.
+- **D27. `db migrate --show` errors name `prisma migrate --show`.** Found 2026-09-30: in `control-api/operations/migrate-show.ts`, `commandName: 'migrate --show'` has no `retryCommand`, so the fix text reads "Run `prisma migrate --show --db <url>`", a command that does not exist. prisma/orm#30475 rewrites those lines; reported there on 2026-09-30.
+- **D28. prisma/orm#30475 leaves three defects.** Found 2026-09-30 by running its branch (`20615a96f0`): `db migrate --to @db` on a database with no marker fails with `MIGRATION.RUNNER_FAILED`; `db migrate --to @empty` never succeeds (the same `RUNNER_FAILED` on an empty database, `PATH_UNREACHABLE` otherwise) although the new help text lists it; and the help for `migration status --from` ("switches to offline path computation") and `db migrate --from` (leaves out the prefix, `<dir>^`, and `@empty`) is out of date. Reported on #30475. The evidence is in the description of prisma/web#8349.
+- **D29. Offline `migration status` reports a backward target as up to date.** Found 2026-09-30 on #30475's branch, and not caused by it: `migration status --from <later hash> --to <earlier hash>` with no database prints `Up to date`, although no migration leads back.
 
 ### Product decisions
 
@@ -169,7 +189,7 @@ Places where the docs are hard because the tool is. Grouped by who owns the fix.
 
 ### Monorepo docs hygiene
 
-- **D17. `docs/reference/` and `docs/Supported Versions.md` disagree with the site and partly with the source.** `reference/capabilities.md` disagrees with the site's capabilities page on key namespacing, pack key nesting, the error code spelling, and whether capabilities are fixed at emit or negotiated at connect. `Supported Versions.md` says Node 24 and documents `--merge-tsconfig`, which does not exist. `Telemetry.md` says no exit code is sent; rc.9 sends one. `docs/reference/error-reference.md`, from which the site's error reference is generated verbatim, still says `ref set` and `prisma ref set` in eight entries (the command is `migration ref set` since rc.5). `mongodb-user-promise.md` promises MongoDB referential actions that are not implemented. Until reconciled, the audit treats `packages/` and `docs/releases/` as the only truth. Rechecked on 2026-09-28: all five claims still hold, and `error-reference.md` now has nine bare `ref set` lines, two of them `prisma ref set`.
+- **D17. `docs/reference/` and `docs/Supported Versions.md` disagree with the site and partly with the source.** `reference/capabilities.md` disagrees with the site's capabilities page on key namespacing, pack key nesting, the error code spelling, and whether capabilities are fixed at emit or negotiated at connect. `Supported Versions.md` says Node 24 and documents `--merge-tsconfig`, which does not exist. `Telemetry.md` says no exit code is sent; rc.9 sends one. `docs/reference/error-reference.md`, from which the site's error reference is generated verbatim, still says `ref set` and `prisma ref set` in eight entries (the command is `migration ref set` since rc.5). `mongodb-user-promise.md` promises MongoDB referential actions that are not implemented. Until reconciled, the audit treats `packages/` and `docs/releases/` as the only truth. Rechecked on 2026-09-28: all five claims still hold, and `error-reference.md` now has nine bare `ref set` lines, two of them `prisma ref set`. The command names in `error-reference.md` are in review as prisma/orm#30527 (2026-09-30): 29 entries named `ref`, `migrate`, `format`, `init`, `inspect-live-schema`, or `db run` without the group or by an old name. No production message names a bare `ref` command. The other four claims are still open.
 
 ## Naming
 
