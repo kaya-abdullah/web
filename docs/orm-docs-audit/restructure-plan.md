@@ -35,4 +35,4 @@ Slice 01 is the migration and CLI gaps, delegated separately.
 
 ## Done when
 
-Every slice is merged, each passed `/drive-code-review` and the docs reader review, and the four starting points are reachable from the docs root page, `/prisma-orm`, and `/orm`.
+Every slice is merged, each passed the docs reader review (`.claude/skills/docs-reader-review`), and the four starting points are reachable from the docs root page, `/prisma-orm`, and `/orm`.
