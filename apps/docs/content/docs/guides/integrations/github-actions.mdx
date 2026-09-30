@@ -187,7 +187,7 @@ Commit the `migrations/` directory, and whenever you change the contract, run `c
 
 ### 2.5. Seed the database
 
-Create `src/prisma/seed.ts` with the code below, where each user is created first and its posts are created with the returned `id`, because Prisma ORM writes take one row at a time and return the inserted row:
+Create `src/prisma/seed.ts` with the code below. `User.create()` returns the user it created, and the script uses that user's `id` when it creates the user's posts:
 
 ```typescript title="src/prisma/seed.ts"
 import { db } from "./db.ts";
@@ -741,7 +741,7 @@ Always pass `--project` to the `postgres` commands in CI. From a fresh checkout 
 
 :::warning
 
-Keep the seed script's `db.close()`, because the runtime owns a connection pool that keeps the Node.js process alive, so a script that forgets to close it never exits and the job runs until its timeout.
+Keep the `db.close()` at the end of the seed script: without it the connection pool keeps the Node.js process alive after the seed finishes, and the job runs until its timeout.
 
 :::
 
