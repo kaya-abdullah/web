@@ -110,3 +110,13 @@ Why a graph and not a list: two branches can each add a migration, and the graph
 ## What the model costs, honestly
 
 Two extra concepts before the first query: the emit step and the signature. Prisma ORM 7 had neither. The docs must pay that cost back on the same page by showing what it buys: a deploy that refuses to run against the wrong database, a migration plan you can read before it runs, and a query you can inspect before it executes. If a page introduces the concept without the payoff, cut the concept from that page.
+
+## Corrections from the slice 05 fact check, 2026-09-30
+
+Checked against the reference pages while rewriting `orm/core-concepts.mdx`. Where they disagree with the text above, the reference pages win.
+
+- The runtime check does not stop a deploy. The default `verifyMarker: 'onFirstUse'` logs a warning and runs the query (`orm/reference/transactions-and-runtime.mdx`; `orm/contract-authoring/the-contract-artifact.mdx` says it cannot be made to fail). `db migrate` stops with `MIGRATION.MARKER_MISMATCH`, and `db verify` in the pipeline is what stops a deploy.
+- Four commands write the signature, not three: `db update` writes it too (`orm/migrations/rollbacks-and-recovery.mdx`, `the-migration-graph.mdx`).
+- `db init` is not only for an empty database: it creates what is missing with additive operations, leaves compatible structures alone, and stops on a conflict (`cli/db-init.mdx`).
+- Retries are safe on PostgreSQL because the whole `db migrate` run is one transaction (`orm/migrations/applying-a-migration.mdx`), not because each edge has a verifiable precondition; MongoDB has no such transaction.
+- Capabilities are checked at `contract emit` and when a query is built (`ORM.CAPABILITY_MISSING`), not at startup (`orm/contract-authoring/capabilities.mdx`).
