@@ -128,7 +128,6 @@ Found by the reader rounds on #8309 and #8310 and rechecked on 2026-09-28 (E12 w
 - **E10. One situation, two codes.** `MIGRATION.MARKER_NOT_IN_HISTORY` from `migration status` and `MIGRATION.MARKER_MISMATCH` from `db migrate` describe the same database; no page links them, and the two error reference entries give different fixes.
 - **E11. The error reference names the wrong source repository.** The header `apps/docs/scripts/generate-error-reference.mjs` writes into `orm/reference/error-reference.mdx` points at `prisma/prisma`; the repository is `prisma/orm`.
 - **E12. Links to examples in prisma/orm.** Four pages send readers to `examples/` in prisma/orm, which exist for end-to-end tests: `orm/extensions/using-extensions.mdx` (the pgvector, PostGIS, ParadeDB, and Supabase demos), `orm/migrations/editing-a-migration.mdx` and `orm/reference/migration-api.mdx` (a `migration.ts` in the retail-store example), and `orm/migrations/the-migration-graph.mdx` (the "Try it on real fixtures" section). Remove each link; where the page needs the code, show it on the page.
-- **E13. The "Using Prisma ORM 7?" note.** The note that opens about ten Prisma ORM 8 pages says Prisma ORM 8 is "the current release, as a release candidate" and mentions "setup paths"; readers in every reader round on 2026-09-29 and 2026-09-30 found it contradictory. One wording change across every page that carries it.
 
 Found while delivering E1 to E12, and not fixed by #8348:
 
@@ -140,6 +139,7 @@ Found while delivering E1 to E12, and not fixed by #8348:
 - **E18. "Newest migration" on `rollbacks-and-recovery.mdx`.** `--from <newest-migration-dir>` is unclear once the history has branches.
 - **E19. Reader marks on text #8348 did not write.** Two reader rounds left about 50 marks on unchanged text of the pages #8348 touched: `slices/01-migration-and-cli-gaps/reviews/reader-round*.md`, the ones labelled EXISTING.
 - **E20. `prisma/prisma` names that rely on GitHub's redirect.** The repository is `prisma/orm`. Still named the old way in `npx skills add prisma/prisma/skills` on `ai/tools/skills.mdx`, `apps/docs/src/lib/agent-skill.ts`, and `apps/site/src/lib/agent-skills.ts` (whether `npx skills add` accepts `prisma/orm/skills` is an open question below); in the GitHub API URL in `packages/ui/src/hooks/use-star-count.ts` and the star link label in `apps/site/src/components/ecosystem/grid.tsx`; and in a comment in `apps/docs/next.config.mjs`.
+- **E21. The "Using Prisma ORM 7?" note.** The note that opens about ten Prisma ORM 8 pages says Prisma ORM 8 is "the current release, as a release candidate" and mentions "setup paths"; readers in every reader round on 2026-09-29 and 2026-09-30 found it contradictory. One wording change across every page that carries it.
 
 ## D. Change the ORM and its tooling
 
@@ -172,7 +172,7 @@ Places where the docs are hard because the tool is. Grouped by who owns the fix.
 - **D28. prisma/orm#30475 leaves three defects.** Found 2026-09-30 by running its branch (`20615a96f0`): `db migrate --to @db` on a database with no marker fails with `MIGRATION.RUNNER_FAILED`; `db migrate --to @empty` never succeeds (the same `RUNNER_FAILED` on an empty database, `PATH_UNREACHABLE` otherwise) although the new help text lists it; and the help for `migration status --from` ("switches to offline path computation") and `db migrate --from` (leaves out the prefix, `<dir>^`, and `@empty`) is out of date. Reported on #30475. The evidence is in the description of prisma/web#8349.
 - **D29. Offline `migration status` reports a backward target as up to date.** Found 2026-09-30 on #30475's branch, and not caused by it: `migration status --from <later hash> --to <earlier hash>` with no database prints `Up to date`, although no migration leads back.
 
-- **D23. `db sign` fails on a policy of a table the contract does not describe.** Found 2026-09-30 on `prisma` 8.0.0-rc.19 and `@prisma/orm-postgres` 8.0.0-rc.13: after removing from an inferred contract the model of a table that has a row-level security policy, `db sign` exits 4 with `extra: database/public/post/post_read`. An unmodelled table with no policy is ignored, as expected. `db sign` should ignore policies on tables the contract does not describe. Until fixed, the existing-database page tells readers to keep the model of such a table.
+- **D30. `db sign` fails on a policy of a table the contract does not describe.** Found 2026-09-30 on `prisma` 8.0.0-rc.19 and `@prisma/orm-postgres` 8.0.0-rc.13: after removing from an inferred contract the model of a table that has a row-level security policy, `db sign` exits 4 with `extra: database/public/post/post_read`. An unmodelled table with no policy is ignored, as expected. `db sign` should ignore policies on tables the contract does not describe. Until fixed, the existing-database page tells readers to keep the model of such a table.
 
 ### Product decisions
 
