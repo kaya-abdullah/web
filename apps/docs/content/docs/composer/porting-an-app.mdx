@@ -64,7 +64,13 @@ export default compute({
 export default { output: 'standalone' };
 ```
 
-Add `nextjsBuild()` from `@prisma/composer/nextjs/control` to the `extensions` of the `composer` section in `prisma.config.ts`:
+`prisma.config.ts` imports `prisma/config`, which resolves from your project's `node_modules`, so install the Prisma CLI as a dev dependency if the project does not have it yet:
+
+```npm
+npm install -D prisma
+```
+
+Then add `nextjsBuild()` from `@prisma/composer/nextjs/control` to the `extensions` of the `composer` section in `prisma.config.ts`:
 
 ```ts title="prisma.config.ts"
 import { defineConfig as composer } from '@prisma/composer/config';
