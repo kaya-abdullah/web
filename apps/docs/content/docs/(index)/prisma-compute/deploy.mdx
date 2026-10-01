@@ -56,7 +56,7 @@ export default compute({
 });
 ```
 
-The **root module** is the app: it provisions the service. The **deploy config** next to it is read only by the CLI:
+The **root module** is the app: it provisions the service. The **deploy config** next to it is the `composer` section of `prisma.config.ts`, read only by the CLI:
 
 ```ts title="module.ts"
 import { module } from "@prisma/composer";
@@ -67,14 +67,17 @@ export default module("my-app", ({ provision }) => {
 });
 ```
 
-```ts title="prisma-composer.config.ts"
-import { defineConfig } from "@prisma/composer/config";
+```ts title="prisma.config.ts"
+import { defineConfig as composer } from "@prisma/composer/config";
 import { nodeBuild } from "@prisma/composer/node/control";
 import { prismaCloud, prismaState } from "@prisma/composer-prisma-cloud/control";
+import { definePrismaConfig } from "prisma/config";
 
-export default defineConfig({
-  extensions: [prismaCloud(), nodeBuild()],
-  state: prismaState(),
+export default definePrismaConfig({
+  composer: composer({
+    extensions: [prismaCloud(), nodeBuild()],
+    state: prismaState(),
+  }),
 });
 ```
 

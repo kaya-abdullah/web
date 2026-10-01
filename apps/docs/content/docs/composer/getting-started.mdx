@@ -38,7 +38,7 @@ Create a directory and install the two Composer packages, plus [arktype](https:/
 npm init -y
 npm pkg set type=module
 npm install @prisma/composer @prisma/composer-prisma-cloud arktype
-npm install -D typescript @types/bun
+npm install -D typescript @types/bun prisma
 ```
 
 `"type": "module"` matters: Composer loads your entry file as an ES module, and without it every Composer command stops at `COMPOSE.ENTRY_UNLOADABLE` ("Cannot use import statement outside a module").
@@ -81,7 +81,7 @@ This is what you are about to create:
 ```text no-copy
 my-app/
 ├── module.ts                  # the root module: the app itself
-├── prisma-composer.config.ts  # deploy config (read only by the CLI)
+├── prisma.config.ts           # deploy config: the composer section (read only by the CLI)
 └── src/
     ├── quotes/
     │   ├── contract.ts        # the quotes service's public API, as types
@@ -197,18 +197,23 @@ export default module('my-app', ({ provision }) => {
 });
 ```
 
-Next to it goes the deploy config. Only the Composer CLI reads this file; your app code never imports it:
+Next to it goes `prisma.config.ts`, the one config file the Prisma CLI reads. The deploy config is its `composer` section: the extensions that deploy your app and the store that keeps deploy state. Only the CLI reads this file; your app code never imports it:
 
-```ts title="prisma-composer.config.ts"
-import { defineConfig } from '@prisma/composer/config';
+```ts title="prisma.config.ts"
+import { defineConfig as composer } from '@prisma/composer/config';
 import { nodeBuild } from '@prisma/composer/node/control';
 import { prismaCloud, prismaState } from '@prisma/composer-prisma-cloud/control';
+import { definePrismaConfig } from 'prisma/config';
 
-export default defineConfig({
-  extensions: [prismaCloud(), nodeBuild()],
-  state: prismaState(),
+export default definePrismaConfig({
+  composer: composer({
+    extensions: [prismaCloud(), nodeBuild()],
+    state: prismaState(),
+  }),
 });
 ```
+
+The commands find `prisma.config.ts` from the directory you run them in, so run them from the app's root. When you add a database, its `orm` section goes in this same file.
 
 ## 5. Build
 
