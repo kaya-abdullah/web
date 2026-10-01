@@ -197,7 +197,28 @@ export default module('my-app', ({ provision }) => {
 });
 ```
 
-Next to it goes `prisma.config.ts`, the one config file the Prisma CLI reads. The deploy config is its `composer` section: the extensions that deploy your app and the store that keeps deploy state. Only the CLI reads this file; your app code never imports it:
+Next to it goes `prisma.config.ts`, the one config file the Prisma CLI reads. The deploy config is its `composer` section: the extensions that deploy your app and the store that keeps deploy state. Only the CLI reads this file; your app code never imports it.
+
+If you ran `prisma init` for the agent skill, `prisma.config.ts` already exists with a `skills` section. Add the `composer` key to its `definePrismaConfig` call and keep `skills`; the `postinstall` hook `init` added reads it. The file then looks like this, with your own agents in `skills`:
+
+```ts title="prisma.config.ts"
+import { defineConfig as composer } from '@prisma/composer/config';
+import { nodeBuild } from '@prisma/composer/node/control';
+import { prismaCloud, prismaState } from '@prisma/composer-prisma-cloud/control';
+import { definePrismaConfig } from 'prisma/config';
+
+export default definePrismaConfig({
+  skills: {
+    agents: ['claude'],
+  },
+  composer: composer({
+    extensions: [prismaCloud(), nodeBuild()],
+    state: prismaState(),
+  }),
+});
+```
+
+Otherwise create the file with the `composer` section alone:
 
 ```ts title="prisma.config.ts"
 import { defineConfig as composer } from '@prisma/composer/config';
