@@ -13,7 +13,7 @@ The person who authorizes the connection becomes its sponsor. A new agent can re
 ## Prerequisites
 
 - A [Prisma account](https://pris.ly/pdp).
-- An MCP client with remote HTTP servers and OAuth sign-in, such as Codex, Claude Code, or Cursor.
+- An MCP client with remote HTTP servers and OAuth sign-in, such as Codex, Claude Code, Pi, or Cursor.
 - Node.js and a project directory where you can install the connection and skill.
 - A GitHub repository if you want to deploy through GitHub Actions.
 
@@ -25,7 +25,7 @@ From your project directory, run:
 npx prisma@latest agent install
 ```
 
-This adds the Prisma MCP connection and the `prisma-agent-enrollment` skill for Codex, Claude Code, and Cursor. It preserves other servers and comments, and refuses to overwrite a conflicting Prisma connection or a skill that Prisma does not manage.
+This adds the Prisma MCP connection and the `prisma-agent-enrollment` skill for Codex, Claude Code, Pi, and Cursor. It preserves other servers and comments, and refuses to overwrite a conflicting Prisma connection or a skill that Prisma does not manage.
 
 To install for one client:
 
@@ -33,7 +33,7 @@ To install for one client:
 npx prisma@latest agent install --client codex
 ```
 
-Supported values are `codex`, `claude`, `cursor`, and `all`. The skill teaches the agent to check its identity, use MCP for cloud operations, handle approvals, and reuse the connection in later sessions. You no longer need to copy a long instruction block into chat or `AGENTS.md`.
+Supported values are `codex`, `claude`, `pi`, `cursor`, and `all`. The skill teaches the agent to check its identity, use MCP for cloud operations, handle approvals, and reuse the connection in later sessions. You no longer need to copy a long instruction block into chat or `AGENTS.md`.
 
 ## 2. Authorize the connection
 
@@ -47,7 +47,7 @@ For clients configured through connector settings, add this URL manually:
 https://mcp.prisma.io/mcp
 ```
 
-OAuth enrollment works independently of the installer.
+OAuth enrollment works independently of the installer. Pi users need a version with [native MCP and OAuth support](https://pi.dev/docs/latest/mcp). Run `pi mcp login prisma` after trusting the project, then `/reload` in an existing session.
 
 ## 3. Confirm identity and access
 
@@ -67,7 +67,7 @@ On the **Permissions** tab, the sponsor can allow or block each workspace they b
 
 An agent can reach only allowed workspaces that its sponsor still belongs to. A project override cannot grant access to another workspace. Workspace admins can manage action permissions and approvals; only the sponsor can change the workspace list.
 
-Existing agents keep their previous workspace scope until the sponsor changes it. The pairing-code enrollment page also lets you choose workspaces and initially selects only your default workspace.
+Existing agents keep their previous workspace scope until the sponsor changes it. The [Console device-enrollment screen](https://console.prisma.io/enroll) also lets you choose workspaces and initially selects only your default workspace.
 
 ## What the agent can do
 
@@ -126,9 +126,9 @@ GitHub Actions has its own identity. A push can deploy independently of the MCP 
 
 Discover tools and Events at runtime. Cloud tools accept `workspaceId` to select an allowed workspace. `get_agent_connection` returns the granted IDs and policy. Use `reason` to explain an action and preserve the original arguments when retrying with `approvalId`.
 
-The `prisma.approval.resolved` event takes `{ "approvalId": "..." }` and follows the [MCP Events protocol](https://developers.openai.com/plugins/build/mcp-events), including webhook verification and Standard Webhooks signatures. Subscriptions belong to the agent and callback, have a bounded lifetime, and require refresh before `refreshBefore`. Repeating a subscription refreshes it. Unsubscribe when finished and read authoritative status after a notification.
+The `prisma.approval.resolved` event takes `{ "approvalId": "..." }` and follows the [OpenAI's MCP Events guide](https://developers.openai.com/plugins/build/mcp-events), including webhook verification and Standard Webhooks signatures. Subscriptions belong to the agent and callback, have a bounded lifetime, and require refresh before `refreshBefore`. Repeating a subscription refreshes it. Unsubscribe when finished and read authoritative status after a notification.
 
-Existing device-enrolled credentials also work with Prisma MCP. Store them in the client's credential store and send them as bearer credentials. The [REST API](/rest-api) remains available for existing integrations.
+Existing device-enrollment credentials also work with Prisma MCP. Store them in the client's credential store and send them as bearer credentials. The [REST API](/rest-api) remains available for existing integrations.
 
 ## Next steps
 
