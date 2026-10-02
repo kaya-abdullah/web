@@ -101,13 +101,22 @@ if (!mdxPath) {
   }
 }
 
-async function status(url, method = "GET") {
-  try {
-    const response = await fetch(url, { method, redirect: "follow", signal: AbortSignal.timeout(20000) });
-    return response;
-  } catch {
-    return null;
+// One retry, because a slow or rate-limited response is not a broken link.
+async function status(url) {
+  for (const attempt of [1, 2]) {
+    try {
+      const response = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(20000) });
+      if (attempt === 2 || (response.status !== 429 && response.status < 500)) return response;
+    } catch {
+      if (attempt === 2) return null;
+    }
+    await new Promise((done) => setTimeout(done, 3000));
   }
+  return null;
+}
+
+async function inBatches(items, size, check) {
+  for (let i = 0; i < items.length; i += size) await Promise.all(items.slice(i, i + size).map(check));
 }
 
 if (checkLinks) {
@@ -123,19 +132,19 @@ if (checkLinks) {
     const repo = link.match(/^https:\/\/github\.com\/([^/]+\/[^/]+)\/pull\//)?.[1];
     return !repo || !privateFound.has(repo);
   });
-  for (const link of unique) {
+  await inBatches(unique, 6, async (link) => {
     const url = link.startsWith("/") ? `https://www.prisma.io${link}` : link;
     const [page, anchor] = url.split("#");
     const response = await status(page);
     if (!response || response.status !== 200) {
       fail(`link: ${url} returned ${response ? response.status : "no response"}`);
-      continue;
+      return;
     }
     if (anchor && !/^log\d{4}/.test(anchor)) {
       const html = await response.text();
       if (!html.includes(`id="${anchor}"`)) fail(`link: ${url} has no element with id "${anchor}"`);
     }
-  }
+  });
 }
 
 if (findings.length) {
