@@ -44,3 +44,11 @@ The accepted outline includes practical AI instructions, checking results, recov
 - Prompt examples are newly drafted teaching material for review, not instructions Shane has previously used.
 - Leave the exact Product Builder entry point, setup, account requirements, UI labels, and deployment path as TODO(shane) until Shane explains them. Do not treat a general Prisma CLI workflow as the Product Builder workflow.
 - Prisma references support the broad database and hosting explanations. No app is created or deployed as part of drafting the handbook.
+
+## Agreed editorial refinement (2026-10-02)
+
+Shane asked to preserve the voice and most of the wording, while fixing passages that introduce things without enough context. His example was the sudden mention of project creation and notifications when explaining the designer's job.
+
+Before-and-after examples were reviewed in chat. Shane approved introducing a feature as a possibility, explaining its connection to the task, and establishing a change of circumstances before describing its consequences. Apply this through small edits to the affected passages, rather than rewriting whole chapters.
+
+The pass applies that approach across Parts I and II. It clarifies the portal example, hypothetical reminders and screens, the move from sample content to saved user work, and references to client access and feedback. The three sample revisions approved in chat are included. Chapter order, scope, and the pending Product Builder walkthrough are unchanged.

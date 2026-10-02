@@ -65,6 +65,7 @@ Chapter numbering is manual and global across Parts. Renumber by hand when a cha
 - Opinions stated as opinions. "Do X" beats "you may want to consider X." The book has a point of view because Shane does.
 - Plain words. A tired non-native-English reader gets every sentence on first pass.
 - Concrete over abstract. A number, a filename, a quote from a real person beats "many builders find."
+- Keep examples close to the situation already established. When introducing a hypothetical example or possible feature, make clear we're imagining it and explain how it relates to the point. When the situation changes, give the reader that context before describing the consequence. Make these small, local edits; preserve the voice.
 - Short paragraphs. Three to five sentences. One idea each.
 - Technical and non-technical readers share the text. Where they need different instructions, say so in one line and give both. Do not write two books.
 

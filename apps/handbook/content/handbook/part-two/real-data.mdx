@@ -17,7 +17,7 @@ Start with the things in the flow. For our hypothetical product, there's a feedb
 | Request | Its identifier, designer, intended client, draft link, and question |
 | Response | The request it answers, who submitted it, and the answer |
 
-An identifier lets the application distinguish one request from another, even if they have the same title. Connecting the response to that identifier lets the designer see which question it answers.
+An identifier lets the application distinguish one request from another, even if they ask the same question. Connecting the response to that identifier lets the designer see which request it answers.
 
 You also need a few rules. Can the client change a response after sending it? Can the designer change the question after someone answers? For this first trial, keep a shared request fixed and create a new one if the draft or question changes. That avoids making an old response appear to approve something the client hasn't seen.
 
@@ -53,15 +53,15 @@ The designer should be able to create requests and read their responses. The cli
 
 An account can establish who someone is. The application still needs to check whether that person may perform the requested action. Hiding a button doesn't enforce that rule; the code handling the action must check access too.
 
-If you choose access through a private link, decide exactly what possession of that link permits. Someone may forward it. Use a reviewed access mechanism appropriate to the intended sharing, and test its limits before putting client work in the product.
+If you let clients open a request through a private link instead of signing in, decide exactly what someone with that link can see and do. The client may forward it to someone else. Use a reviewed access mechanism appropriate to the intended sharing, and test its limits before putting client work in the product.
 
 For the first trial, use sample design material and test identities while you check these rules. You can arrange access manually without building a full signup experience.
 
 ## Prove that saving works
 
-Create a new request from the designer's view. Open it through the client's access path in a separate browser session, submit a response, and return to the designer's view. Refresh both pages and check that the right content remains.
+Create a new request from the designer's view. In a separate browser session, open it using the account or private link you've chosen for the client. Submit a response, then return to the designer's view. Refresh both pages and check that the right content remains.
 
-Then try an unrelated session. Check that it can't read or change the request. Use the application's normal interface to test, and ask the AI to add focused checks for the access rules behind it.
+Then try opening the same request without the required account or private link. Check that you can't read or change it. Use the application's normal interface to test, and ask the AI to add focused checks for the access rules behind it.
 
 Keep a note of anything that failed. We'll use that list in [Test it, fix it, and keep going](./testing.mdx) before the first deployment.
 
