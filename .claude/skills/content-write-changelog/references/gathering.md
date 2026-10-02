@@ -11,7 +11,7 @@ List `apps/site/content/changelog/` and open the newest file. The window starts 
 The repositories that feed the changelog carry the `loggy-core` topic. Ask GitHub for the current list instead of keeping one in your head, because repositories get added and renamed:
 
 ```bash
-gh api 'search/repositories?q=org:prisma+topic:loggy-core&per_page=50' \
+gh api --paginate 'search/repositories?q=org:prisma+topic:loggy-core&per_page=100' \
   --jq '.items[] | "\(.full_name)\t\(.private)"'
 ```
 
@@ -19,15 +19,15 @@ The second column tells you which repositories are private. Changes from those a
 
 ## 3. List the merged pull requests
 
-For each repository, list what merged in the window and keep the title, the merge date, and the body:
+For each repository, list what merged in the window and keep the title, the merge date, and the body. `SINCE` and `UNTIL` are the dates from step 1, written as `YYYY-MM-DD`:
 
 ```bash
 gh pr list -R "$repo" --state merged --limit 1000 \
-  --search "merged:2026-08-28..2026-10-02" \
+  --search "merged:$SINCE..$UNTIL" \
   --json number,title,mergedAt,url,body
 ```
 
-Start the range a few days before the last entry's date, then drop what that entry already covers.
+Set `SINCE` a few days before the last entry's date, then drop what that entry already covers. If a repository returns exactly 1000 pull requests, the list was cut off, so split the window in two and run the command for each half.
 
 A month across every repository is close to a thousand pull requests. Do not read them all. Read the titles first, and set aside the ones that start with `chore`, `ci`, `test`, `refactor`, or `build`, along with dependency bumps and internal project close-outs. Read the body only for the candidates that are left. The body, not the title, tells you what the user sees and whether the change is behind a flag.
 

@@ -54,7 +54,7 @@ For the render to use the real brand fonts, the bundled `assets/fonts/` is used 
 
 ## content-write-changelog
 
-Writes the entry for [prisma.io/changelog](https://www.prisma.io/changelog) and opens the pull request. It gathers what merged since the last entry, keeps only what a user can see and what is already released, and writes it outcome first with the most impactful change at the top.
+Writes the entry for [prisma.io/changelog](https://www.prisma.io/changelog) and opens the pull request. It gathers what merged since the last entry, keeps only what a user can see and what is already released, and explains each change from the reader's side, with the most impactful change at the top.
 
 **How to use:**
 
@@ -62,7 +62,8 @@ Writes the entry for [prisma.io/changelog](https://www.prisma.io/changelog) and 
 2. It lists the merged pull requests across the Prisma repositories with the `gh` CLI, then reads the release notes and the docs for the candidates it keeps. You need access to the Prisma organization for the private repositories, or the entry covers the public ones only.
 3. It writes `apps/site/content/changelog/{date}.mdx` and adds screenshots to `apps/site/public/changelog/`.
 4. It runs `content-write-changelog/scripts/check-entry.mjs`, which checks the frontmatter, compiles the MDX, and checks every link and anchor against production.
-5. It opens a pull request whose body lists everything it held back or excluded, with a reason for each. You review, edit, and merge.
+5. It runs the `docs-reader-review` checks and has a fresh reviewer read the entry cold, so that the entry explains each change instead of listing it the way a spec would.
+6. It opens a pull request whose body lists everything it held back or excluded, with a reason for each. You review, edit, and merge.
 
 The skill reads the same positioning doc as `content-write-blog`, from the **prisma/ignite** repository. Its rules live in four short references: [gathering](content-write-changelog/references/gathering.md), [filtering](content-write-changelog/references/filtering.md), [voice](content-write-changelog/references/voice.md), and [structure](content-write-changelog/references/structure.md).
 

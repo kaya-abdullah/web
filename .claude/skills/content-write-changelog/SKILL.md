@@ -22,14 +22,15 @@ Stop and tell the operator if one of these is missing.
 
 ## Rules that always apply
 
-- **Outcome first, product named in the same sentence.** Every unit a skimmer can land on (title, opening paragraph, section opener, bullet, guide annotation) leads with what the reader can now do and names the product. Write "You can now enroll a coding agent in Prisma with a credential of its own", not "Agent enrollment is now available".
+- **Outcome first, product named in the same sentence.** The title, the opening paragraph, and the first sentence of each section lead with what the reader can now do and name the product. Write "You can now enroll a coding agent in Prisma with a credential of its own", not "Agent enrollment is now available".
+- **Explain, do not state.** A changelog written from pull request titles reads like a spec. Say what each change means for the reader, in sentences a person would say aloud, with the "so" and "because" left in. `references/voice.md` and the `docs-reader-review` skill describe how.
 - **Publish what the user can see, wherever the code lives.** A Console workflow, a CLI command, a REST API route, or a docs page is publishable even when its code is private. Describe the effect and link a public docs page, or link nothing. Never link a private pull request and never name a private repository.
 - **Only what is released.** A merged pull request is not a shipped feature. Check each product's release before you write about it, as described in `references/gathering.md`.
-- **Every claim has a public source.** A release note, a docs page, a blog post, or a public pull request. Quote dates, limits, and prices from the source and never from memory.
+- **Every claim has a source you have read.** Use a public one wherever it exists: a release note, a docs page, a blog post, or a public pull request. A change built in a private repository often has none yet. In that case the merged pull request is your source, the entry describes the effect without a link, and the item goes into the triage note as "no public PR" so that a reviewer confirms it in the product before the entry is merged. Quote dates, limits, and prices from the source and never from memory.
 - **Full product names on every mention**, as the positioning doc spells them. Check the name and the maturity of each product against the docs when you write, because both change between entries.
 - **Most impactful first, at every level.** The title is the biggest change. The headline sections, the bullets in a section, the actions a reader must take, and the fixes are each ordered by how many readers they reach and how much they change.
 - **Never pad.** A window with a few fixes gets a short entry with no headline sections. A window with nothing user-facing gets no entry, and you report that instead.
-- **No em dashes, no emoji, no vague adjectives.** State the behavior the reader will observe.
+- **No em dashes, no emoji, no vague adjectives, and no vocabulary from the source code.** State the behavior the reader will observe, in words the reader already has.
 
 ## Workflow
 
@@ -41,13 +42,15 @@ Stop and tell the operator if one of these is missing.
    Done when every candidate has a verdict and every flag and exclusion has a one-line reason.
 4. **Confirm.** For each candidate you keep, find the public source, check that it is released, and note the docs page that documents it.
    Done when no kept item rests on a pull request title alone.
-5. **Write.** Draft the entry in the order `references/structure.md` gives, in the voice `references/voice.md` describes.
+5. **Write.** Read `references/voice.md` and the three `docs-reader-review` references it names, then draft the entry in the order `references/structure.md` gives.
    Done when the frontmatter is valid, `slug` equals `date`, and the date is the day the entry lands.
-6. **Check.** Run `node .claude/skills/content-write-changelog/scripts/check-entry.mjs apps/site/content/changelog/{YYYY-MM-DD}.mdx --links`, then `.claude/skills/docs-reader-review/scripts/check-ai-signs.sh` on the same file. The closing `---` before the Enterprise line is the one hit the second script is expected to report.
-   Done when both scripts report nothing else and you have gone through the checklist below.
-7. **Open the pull request.** Create the branch `changelog/{YYYY-MM-DD}`, commit the entry and its images as `docs(site): add changelog entry {YYYY-MM-DD}`, push, and open the pull request with the body in `references/structure.md`. If an entry for that date already exists, ask the operator whether to replace it or pick another date.
+6. **Check.** Run `node .claude/skills/content-write-changelog/scripts/check-entry.mjs apps/site/content/changelog/{YYYY-MM-DD}.mdx --links`. Then run the three scripts in `.claude/skills/docs-reader-review/scripts/` on the same file: `check-plain.sh`, `check-staccato.py`, and `check-ai-signs.sh`. The closing `---` before the Enterprise line is the one hit `check-ai-signs.sh` is expected to report.
+   Done when the scripts report nothing else.
+7. **Have it read cold.** Give the entry to a fresh reviewer, as the `docs-reader-review` skill describes, and rewrite every sentence it could not restate. Repeat with a new reviewer until a round reports no sentence it could not restate and no word it had to guess. Then check every rewritten sentence against its source again, because rewriting drifts meaning.
+   Done when a round comes back clean, the facts have been checked again, and you have gone through the checklist below.
+8. **Open the pull request.** Create the branch `changelog/{YYYY-MM-DD}`, commit the entry and its images as `docs(site): add changelog entry {YYYY-MM-DD}`, push, and open the pull request with the body in `references/structure.md`. If an entry for that date already exists, ask the operator whether to replace it or pick another date.
    Done when the pull request is open and its body carries the triage note.
-8. **Report and stop.** Give the operator the pull request link, the items that need a human decision, and anything you could not verify. Do not merge and do not enable auto-merge.
+9. **Report and stop.** Give the operator the pull request link, the items that need a human decision, and anything you could not verify. Do not merge and do not enable auto-merge.
 
 ## Checklist before you open the pull request
 
@@ -58,7 +61,9 @@ Stop and tell the operator if one of these is missing.
 - [ ] "What you need to do" exists whenever a reader has to act, with one bullet per audience.
 - [ ] Every breaking change says what to change. Every deprecation names the old surface, the replacement, and the date.
 - [ ] Every documented surface links its docs page, and every link and anchor was checked against production.
-- [ ] Every technical identifier is in backticks.
+- [ ] Every technical identifier is in backticks, and every term a reader of the previous version would not know is replaced or explained where it first appears.
+- [ ] Headline sections and short product sections are paragraphs. Lists are used only for items the reader scans.
+- [ ] Bold appears on the first sentence, on interface labels, on dates that need action, and on the first sentence of items in a scanned list, and nowhere else.
 - [ ] No private pull request links, no private repository names, no internal names, no issue-tracker IDs, no customer names, and no description of how a security problem worked.
 - [ ] No CI, dependency, refactor, test, SEO, or analytics items.
 - [ ] Every image has alt text that describes what the screenshot shows.

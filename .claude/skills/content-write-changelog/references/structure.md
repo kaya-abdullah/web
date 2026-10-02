@@ -34,25 +34,25 @@ The index page at `/changelog` derives a single category for the entry from its 
 
 Leave out any block that has no content. Do not repeat the title as a heading, because the page renders it from the frontmatter.
 
-1. **Opening.** The first sentence is the biggest change, in bold, and it has to stand alone because the index page shows only the start of the entry. The other headline changes follow in a sentence each. If the reader must act by a date, a second short paragraph opens with a bold "Two dates need action." and names each date.
+1. **Opening.** The first sentence is the biggest change, in bold, and it has to stand alone because the index page shows only the start of the entry. The other headline changes follow in a sentence each. If the reader must act by a date, a second short paragraph names each date in bold and points to "What you need to do".
 
 2. **Up to three headline sections, the most impactful first.** Each is an `##` heading that states the outcome, either as a sentence (`## Coding agents get their own credential and ask before production changes`) or as an action the reader can take (`## Try Prisma ORM 8 on the schema you already have`). A heading that names only the feature, such as "Agent enrollment", tells a skimmer nothing. A change earns a headline section when it changes what a reader can do and can be explained in a few short paragraphs. A fix never does. Inside each section:
-   - what the reader can do now, then why it matters, then how to start
+   - paragraphs, not bullets: what the reader does today and what was wrong with it, then what is new, then how to start
    - one screenshot when the change is visual
    - one code block when the change is something the reader types
    - a row of one or two buttons that lead to the product and to the docs
    
    Order them by impact: how many readers the change reaches and how much it changes what they can do. Lead with the commercial products only when two changes are of similar weight.
 
-3. **`## What you need to do`.** Include it whenever a reader has to act. One bullet per audience, opening with a bold label that lets readers find themselves: `- **Prisma ORM 7:** there is *nothing to change*.` Each bullet states the action, the deadline, and the guide to follow. Put the nearest deadline and the largest loss first, so a bullet about data that will be deleted comes before one about a connection string. Say so when a group has nothing to do.
+3. **`## What you need to do`.** Include it whenever a reader has to act. One bullet per audience, opening with a bold condition that lets readers find themselves: `- **If you are on Prisma ORM 7**, you do not need to change anything.` Each bullet states the action, the deadline in bold, the reason, and the guide to follow. Put the nearest deadline and the largest loss first, so a bullet about data that will be deleted comes before one about a connection string. Say so when a group has nothing to do.
 
-4. **`## Breaking changes`.** One line saying which versions they apply to, then one bullet per change. The bullet opens with what breaks in bold, then says what to write instead, then links the pull request. When a release has more breaking changes than most apps will hit, list the common ones and link the full release notes.
+4. **`## Breaking changes`.** One line saying which versions they apply to, then one bullet per change. The bullet opens with what changed in bold, then explains what the reader will see and what to write instead, then links the pull request. When a release has more breaking changes than most apps will hit, list the common ones and link the full release notes.
 
-5. **`## Deprecations`.** One bullet per deprecation, with the product in bold, the old surface, the replacement, and the date. When the reader has to act, add an italic `*Action required:*` sentence.
+5. **`## Deprecations`.** One bullet per deprecation, in full sentences: the product, what is deprecated, what replaces it, the date, and whether the old form still works. When the action is already under "What you need to do", link the guide and do not repeat the steps.
 
-6. **One `##` section per product**, headed with the exact product name. The section opens with one bold sentence that states its biggest change. Bullets follow, most impactful first, each opening with the outcome. Group related bullets under a plain sentence instead of adding sub-headings. Order the sections by how much changed for users.
+6. **One `##` section per product**, headed with the exact product name. The section opens with its biggest change, explained in a short paragraph. Related smaller changes follow as further paragraphs, or as a list when there are several of the same kind, introduced by a sentence that says what they have in common. Put the most impactful first. Order the sections by how much changed for users.
 
-7. **`## Fixes`.** Always visible and grouped by product under bold labels. Within a product, wrong results and data loss come first, then failures, then cosmetic fixes. Open the fixes that matter most with a bold sentence, and say what went wrong before when that helps a reader recognize the bug.
+7. **`## Fixes`.** Always visible and grouped by product under bold labels. Within a product, wrong results and data loss come first, then failures, then cosmetic fixes. Each fix is a full sentence, and it says what went wrong before when that helps a reader recognize the bug.
 
 8. **`## Guides and articles`.** One bullet per new post or guide. Link the published page, and follow it with a colon and one sentence about what the reader gets.
 

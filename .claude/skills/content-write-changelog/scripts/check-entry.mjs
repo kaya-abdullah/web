@@ -4,7 +4,8 @@
 //
 // Always checked: required frontmatter, slug and version equal to date, the file name, em dashes
 // and emoji, private pull request links, images on disk with alt text, and that the MDX compiles.
-// With --links: every external link returns 200, and every #anchor exists on the page it points to.
+// With --links: every link returns 200, pull request links included, and every #anchor exists on
+// the page it points to.
 // --modules names a directory whose node_modules holds @mdx-js/mdx, for a checkout or worktree
 // that has no install of its own. Exit 1 on any finding.
 import { existsSync, readdirSync, readFileSync } from "node:fs";
@@ -42,7 +43,9 @@ for (const name of ["title", "date", "version", "slug", "headline", "canonical",
 if (!/^tags:\s*\n(\s+-\s+.+\n?)+/m.test(frontmatter)) fail("frontmatter: tags are missing");
 const date = field("date");
 if (date) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) fail(`frontmatter: date "${date}" is not YYYY-MM-DD`);
+  const parsed = new Date(`${date}T00:00:00Z`);
+  const real = /^\d{4}-\d{2}-\d{2}$/.test(date) && !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date;
+  if (!real) fail(`frontmatter: date "${date}" is not a real YYYY-MM-DD date`);
   if (field("slug") !== date) fail("frontmatter: slug must equal date");
   if (field("version") !== date) fail("frontmatter: version must equal date, not a product version");
   if (basename(path) !== `${date}.mdx`) fail(`file name must be ${date}.mdx`);
@@ -108,11 +111,18 @@ async function status(url, method = "GET") {
 }
 
 if (checkLinks) {
+  const privateFound = new Set();
   for (const repo of privateRepos) {
     const response = await status(`https://github.com/${repo}`);
-    if (!response || response.status !== 200) fail(`link: ${repo} is not a public repository, remove its pull request links`);
+    if (!response || response.status !== 200) {
+      privateFound.add(repo);
+      fail(`link: ${repo} is not a public repository, remove its pull request links`);
+    }
   }
-  const unique = [...new Set(links)].filter((link) => !/github\.com\/[^/]+\/[^/]+\/pull\//.test(link));
+  const unique = [...new Set(links)].filter((link) => {
+    const repo = link.match(/^https:\/\/github\.com\/([^/]+\/[^/]+)\/pull\//)?.[1];
+    return !repo || !privateFound.has(repo);
+  });
   for (const link of unique) {
     const url = link.startsWith("/") ? `https://www.prisma.io${link}` : link;
     const [page, anchor] = url.split("#");

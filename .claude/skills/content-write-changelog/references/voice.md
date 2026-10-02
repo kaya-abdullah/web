@@ -1,74 +1,90 @@
-# Voice: short, concrete, and useful to someone skimming
+# Voice: a person explaining what changed
 
-The entry is read by a developer who is deciding whether an update affects them. Write so they can decide without reading twice.
+The entry is read by a developer who is deciding whether an update affects them. Write the way you would explain the change to a colleague at the next desk. A changelog built from pull request titles reads like a spec: every sentence is true, and the reader still has to work out what it means for them. The job of this pass is to do that work for the reader.
 
-## Outcome first
+The house rules for prose are in the `docs-reader-review` skill, and they apply here in full:
 
-The first sentence of every item answers one question: what can I do now that I could not do before? After that, in this order, come why it matters, how it works, and the technical detail. Stop as soon as the reader can act.
+- `.claude/skills/docs-reader-review/references/explain-not-state.md` describes the habit of stating facts without explaining them, and how to fix it.
+- `.claude/skills/docs-reader-review/references/ai-writing-signs.md` lists the words and sentence shapes that make text read as machine-written.
+- `.claude/skills/docs-reader-review/references/banned-terms.md` lists the source-code vocabulary that readers do not have.
 
-- **Write from the reader's side.** Describe what they experience, not how it was built. Second person works well when it is concrete: "You can now delete a project that still has active deployments."
-- **One idea per sentence.** When a sentence contains "and", check whether it holds two changes. If it does, split it. Two changes never share a bullet.
-- **Mechanics come after the benefit.** Config files, setup pull requests, and API internals do not appear before the reader knows what they get.
-- **A snippet follows its explanation.** Code never sits between the outcome and the sentence that explains it.
-- **Skip the history.** "Was gated, then tested, then released" becomes what is true today. Add one "before" sentence only when the contrast helps: "The choice was dropped before, and the project deployed in US East."
-- **Question every sentence.** If a user would not care, delete it.
-- **Prefer two short sentences to one long one.** "It used to map to `userProfile`. It now maps to `UserProfile`." reads faster than one sentence joined with "and".
-- **Open a bullet with a verb when the reader can do something new.** "Change what is live", "Find out what went wrong", and "Skip duplicates on bulk inserts" tell a skimmer more than a noun phrase does.
+Read all three before you write. The rest of this file is what is specific to the changelog.
+
+## Explain, do not state
+
+For each change, say what it means for the reader before you say how it works. Three habits do most of the work.
+
+**Start from the reader's situation.** Open a headline section with what the reader does today and what was wrong with it, and only then say what is new. "When a coding agent works in Prisma today, it uses your CLI session. As far as Prisma can tell, the agent is you" tells a reader why enrollment matters. "Agents can now be enrolled with a credential and a policy" does not.
+
+**Walk through it as a scenario.** Put the reader in the sentence: "When a deploy goes wrong, you can ask your AI tool to read the deployment's runtime logs, and then ask it to roll the app back." A list of tool names leaves the reader to imagine that for themselves.
+
+**Keep the connectives.** When two facts are cause and effect, or condition and result, join them with "so", "because", "when", "if", or "which". "Because the credential belongs to the agent, you can pause or revoke it without affecting your own access" is one thought. Split into two short sentences, it becomes two facts the reader has to connect. A run of clipped sentences is the most common sign of a changelog written from a diff.
+
+Say what was true before when it helps a reader recognize their own problem: "Your choice was dropped before, and the project deployed in US East."
+
+## Prose for reasoning, lists for scanning
+
+Use a paragraph when you are explaining why something matters or how the pieces fit together. Headline sections, and product sections with a handful of related changes, are paragraphs.
+
+Use a list when the items are the same kind of thing and the reader will scan for the one that applies to them: the audiences under "What you need to do", breaking changes, a product's new features, fixes, and guides. In a list, each item is still one or more full sentences that explain the change.
+
+Introduce a list by what its items have in common ("Connecting a repository takes fewer steps as well:"), never by how many there are ("Three smaller changes:").
+
+## Words the reader does not have
+
+A reader on the previous version does not know the new version's vocabulary. Replace a term from the source code or the release notes with what it means, or define it in the sentence that first uses it.
+
+- "a migration snapshot" becomes "the copy of your schema that a migration stores"
+- "buffered queries" becomes "a query whose results you have not finished reading"
+- "a Composer project's topology" becomes "how the project's services connect to each other"
+- "the upgrade recipe" becomes "the upgrade guide linked from each release"
+
+Identifiers in backticks are not prose and stay as they are. Run `check-plain.sh` from `docs-reader-review` to catch the terms on the banned list.
 
 ## Name the product
 
-The product name appears wherever a reader might land: the title, the opening paragraph, section openers, and the first bullet of a list. A reader who jumps to the middle of the entry should know which product a line is about.
+The product name appears wherever a reader might land: the title, the opening paragraph, and the first sentence of each section. A reader who jumps to the middle of the entry should know which product a paragraph is about.
 
-Use the names in the positioning doc, in full, every time. Check two things against the docs before you write, because they change between entries:
+Use the names in the positioning doc, in full. Check two things against the docs before you write, because they change between entries:
 
-- **The name.** Follow what the docs call the product today. For example, the docs say "Prisma ORM" and add a version number only when two versions are being contrasted, as in "Prisma ORM 8 reads the Prisma 7 schema you already have".
+- **The name.** Follow what the docs call the product today. For example, the docs say "Prisma ORM" and add a version number only when two versions are being contrasted, as in "Prisma ORM 8 can now read your Prisma 7 `schema.prisma` file".
 - **The maturity.** Early Access, release candidate, and generally available mean different things to a reader. State a product's maturity once per entry, in the docs' wording, and do not repeat it in headings.
 
-## Titles
+## Titles and headings
 
 The title tells someone scanning the changelog index whether to open the entry.
 
 - Lead with what the reader can do, and name the product: "Let your coding agent set up Prisma and ask before it touches production".
-- Say what the reader gets, not what the feature is made of. "Enroll your coding agent in Prisma with its own credential" names the mechanism. The version above names the two things the reader cares about.
+- Say what the reader gets, and leave out what the feature is made of. "Enroll your coding agent in Prisma with its own credential" names the mechanism. The version above names the two things the reader cares about.
 - A launch is the exception, where the event is the news: "Prisma Compute is now generally available". The index page gives the featured treatment to titles that say "generally available", "now available", or "now in beta" or "preview", so use those phrases only for a real launch.
-- One claim per title. When an entry covers several products, lead with the biggest change and let the opening paragraph carry the rest.
+- One claim per title. When an entry covers several products, lead with the biggest change and let the opening carry the rest.
 - No `Prisma:` prefix, no version number, and no verbs like "lands", "arrives", or "ships".
 
-## Words to cut
-
-- **Openers that delay the point:** "We're excited to", "Today we're announcing", "As always".
-- **Filler:** "stay tuned", "under the hood", "and much more".
-- **Intensifiers:** "very", "really", "truly", "simply".
-- **Jargon:** "leverage", "robust", "best-in-class", "supercharge".
-- **Claims of importance** with no change behind them: "This is huge", "A better experience".
-
-These adjectives need proof in the same sentence, or they go: `seamless`, `effortless`, `powerful`, `fast`, `simple`, `easier`, `cleaner`, `richer`, `clearer`. Replace them with what the reader will observe. Not "builds are easier to debug" but "a failed build sends an email and shows its logs in the Console".
-
-The full list of patterns that make text read as machine-written is in `.claude/skills/docs-reader-review/references/ai-writing-signs.md`, and `check-ai-signs.sh` in the same skill finds the ones a regular expression can catch.
-
-## Sentence rules
-
-- No em dashes. Use a comma, a period, or parentheses.
-- No emoji.
-- No rhetorical questions and no "It's not X, it's Y".
-- Active voice and present tense: "Views now support `@unique`."
-- Use a number only when it appears in the source. Never estimate one.
-- Put every exact identifier in backticks: packages, import paths, config files, API fields, routes, commands, and error codes. Product surfaces such as the Console and the REST API stay plain text.
-- A link says what the reader gets there: "The [enrollment guide](url) covers the policy rules." Never "Read more".
+Headline section headings follow the same rules: an outcome or an action the reader can take, in sentence case.
 
 ## Emphasis
 
-Bold the one phrase in a paragraph that a skimmer must not miss, and bold the lead of a bullet when the bullet opens with the outcome. Use italics for the short qualifier that changes a decision, such as *never returned* or *nothing to change*. If everything is bold, nothing is.
+Bold is for three things: the first sentence of the entry, interface labels the reader will click (**Save changes**), and dates the reader must not miss. In a list the reader scans, the first sentence of an item can be bold when it names the change. Do not bold a phrase in every paragraph, and do not use italics to stress a word. If the sentence needs stress to be understood, rewrite the sentence.
+
+## Sentence rules
+
+- Use a number only when it appears in the source. Never estimate one.
+- Put every exact identifier in backticks: packages, import paths, config files, API fields, routes, commands, and error codes. Product areas such as the Console and the REST API stay plain text.
+- A link says what the reader gets there: "The [enrollment guide](url) explains the policy in detail." Never "Read more".
+- Use the count of items there actually are. Lists of exactly three adjectives or three examples, again and again, read as generated.
+- Avoid framing a change as a contrast the reader was not thinking about ("not just X, but Y"). Say what it does.
 
 ## From pull request to sentence
 
-Strip the mechanism and keep the effect.
+Take the mechanism out, keep the effect, and add what it means for the reader.
 
-- "Use every key column in includes, nested writes and multi-table variants" becomes "`include()` across a composite foreign key returns the right rows. It matched on the first key column only, which returned related rows that belonged to other parents."
-- "Schedule paid-to-paid downgrades for the end of the period" becomes "Downgrades between paid plans take effect at the end of the billing period. You keep your current plan until then."
+- "Use every key column in includes, nested writes and multi-table variants" becomes "Loading related records with `include()` across a composite foreign key now returns the right rows. It used to match on the first key column only, so it could return rows that belonged to other parents."
+- "Schedule paid-to-paid downgrades for the end of the period" becomes "When you downgrade from one paid plan to another, the change now takes effect at the end of the billing period, and you keep your current plan until then."
+- "Accept and return logicalId on services, databases, and buckets" becomes "Services, databases, and buckets now have an optional `logicalId`, an identifier you choose so that your own tooling can tell which resource is which."
 - "Reduce included-result decoding overhead" has no effect a reader can observe without a number from the source, so it is excluded.
-- A title that carries only an issue-tracker ID and an internal project name is excluded.
 
-## Read it once more as the reader
+## The reader review
 
-Before you hand the entry over, read only the title, the opening paragraph, and the first sentence of each section. A reader who stops there should know what changed, which products it touches, and whether they have to do anything.
+The checker scripts find words and sentence shapes. They cannot tell whether a paragraph explains anything. Before the entry goes into a pull request, give it to a fresh reviewer who has not seen the sources, using `.claude/skills/docs-reader-review/references/reader-persona.md` as its instructions. Describe the reader as someone who has used the previous version of the product for two years and is skimming to learn what changed and whether they have to act.
+
+Rewrite every sentence the reviewer could not restate, then check the rewritten sentences against the sources again. A rewrite that reads well and says something the source does not is worse than the sentence it replaced.
