@@ -1,0 +1,82 @@
+---
+title: "12. Build the first working flow"
+description: Turn the brief into working interactions, checking each change as you go.
+status: structured
+---
+
+Open the working starter and keep your brief beside it. Pick a piece of the main task you can see and try. For our feedback product, start with the page where the client reads the request and writes a response.
+
+Give the AI enough context to understand that piece, including what should happen when someone uses it. A request to “make a feedback app” leaves most of the product decisions open. Your brief has already settled some of them.
+
+## Build something you can inspect
+
+Use the brief from the last chapter, then ask for the first interaction:
+
+```text title="Build the client view"
+Build the client request page using the existing project.
+Show the draft link, the designer's question, a labelled response
+field, and the action for submitting the response.
+
+Use clearly labelled sample content for this first pass.
+When I try submitting an empty response, explain what is missing.
+Keep what I've typed if submission fails.
+
+If saving isn't connected yet, label the interaction as a preview
+and don't claim the response has been saved. Tell me what remains
+to make submission work with real data.
+
+Keep to the scope in our brief. Run the relevant existing checks
+and tell me how to try the result.
+```
+
+Open the result yourself. Read the request, follow the draft link, and try the response field. Test it on a narrow screen too. This gives you specific feedback to bring back to the AI while the change is still small.
+
+If the layout is confusing, explain what you expected to see. “Put the question above the response field so I can read it while answering” gives more direction than “make the UX better.”
+
+## Make the next change concrete
+
+Work through the remaining steps from chapter 9. Add the designer's form for creating a request, then the view where the designer can read the response. Keep checking how a person moves between them.
+
+A screen needs a way to receive the right information. The client view must show the request attached to the link they opened. The designer's response view must show the answer to that same request. Ask the AI to explain how those connections work and whether any are still using sample data.
+
+In a code project, this work may involve a page file, code that handles submissions, and database queries. Ask for a short explanation of the changes if the terms are unfamiliar. You need enough understanding to describe a problem and recognise what the application is doing.
+
+If you can code, inspect the relevant changes directly. If you can't, use the preview and the concrete checks in your brief, and ask the AI to explain anything the result doesn't demonstrate.
+
+## Check behaviour separately from appearance
+
+A convincing screen can still contain a button that does nothing. After each step, try the action with content you've entered yourself. Look for the expected result, including what happens when something is missing.
+
+Don't let sample content become evidence that a feature works. Seeing a response already displayed on a page doesn't show that your submission produced it. Change the wording, submit again, and find the result where the designer should see it.
+
+Until the database is connected, some interactions may only work within the current preview session. Record that limitation. In the next chapter we'll make the data persist and check the flow across separate sessions before anyone else uses it.
+
+## Save progress you understand
+
+When a piece works, save a checkpoint with a description of the behaviour. “Client can enter a response and sees validation for an empty answer” will be useful when you need to find it later.
+
+Keep your next request focused enough to judge. If you ask for a new layout, account system, and email notifications at once, it becomes harder to tell which change broke the flow. You can still explore freely in a separate version.
+
+Before moving on, ask the AI to list what is complete and what still depends on sample content or temporary behaviour. Compare that list with your own checks. Carry the remaining data work into [the next chapter](./real-data.mdx).
+
+<Checklist id="ch12-before-you-move-on">
+  <Check>You can move through the main screens and try their primary actions.</Check>
+  <Check>You've checked behaviour using content you entered yourself.</Check>
+  <Check>You know which interactions still rely on sample or temporary data.</Check>
+  <Check>You've saved a working checkpoint before the next changes.</Check>
+</Checklist>
+
+{/* prettier-ignore-start */}
+
+{/*
+REVIEW NOTES (private, never published)
+- Source: notes/part-two/_part.md and the accepted chapter 12 outline.
+- Kept: practical AI instructions, coding, inspection, and building the useful flow in manageable pieces.
+- Reordered: client interaction, remaining screens, behaviour checks, then a checkpoint and data handoff.
+- Added for review: a copyable prompt and examples of precise feedback. These are illustrative prompts, not a verified Product Builder session.
+- Temporary UI behaviour is explicitly distinguished from persistence. The completed cross-session flow belongs to chapter 13.
+- Cut: framework-specific code and exact filenames that depend on Product Builder's output.
+- TODO(shane): Replace or supplement the generic prompt with the actual Product Builder interaction and resulting project files once the tool is explained.
+*/}
+
+{/* prettier-ignore-end */}

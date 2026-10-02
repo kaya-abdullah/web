@@ -1,0 +1,97 @@
+---
+title: "11. Get your tools and Prisma set up"
+description: Prepare the build brief, understand the tools, and get a starter running.
+status: structured
+---
+
+Have your problem sentence, first useful flow, and rough screen sketch nearby. These are the instructions for what you're about to build. Keeping them together helps you give the AI consistent context when you start making changes.
+
+The aim of setup is modest: a project you can open, a way to ask the AI to change it, and a preview where you can see the result. Get that working before adding your product's behaviour.
+
+<Callout type="note" title="Draft: Product Builder walkthrough to come">
+  This chapter still needs the exact Prisma Product Builder entry point and setup sequence. The brief and checks below are ready to use; the product-specific instructions will be added once that workflow is confirmed.
+</Callout>
+
+## Put the brief in one place
+
+A useful starting brief describes the person, the task, and the boundary of this version. Include what should happen when the task is complete. Add your sketch if the tool supports it, or describe the screen in words.
+
+For our hypothetical example, the brief could be:
+
+```text title="First-version brief"
+We're building a way for a freelance designer to ask a client
+for a decision on a design draft.
+
+The designer creates a request with a draft URL and a question.
+The client opens the request and submits a written response.
+The designer can read the saved response later.
+
+Start with the request page using clearly labelled sample content.
+We'll connect the complete flow to saved data afterwards.
+
+Keep the layout simple and usable on a phone. Explain what the
+client is responding to and confirm when a response is saved.
+
+Leave out payments, automated reminders, file uploads, analytics,
+and team management for this version.
+```
+
+Change the brief to match your own product. The excluded features help the AI understand where to stop. Keep a copy with the project so you can refer to the same decisions later.
+
+## Know what each piece does
+
+Your AI tool helps turn instructions into changes to the application. The application is the software the user interacts with. Its code describes the screens and the behaviour behind them.
+
+A database keeps information the application needs to retrieve later. [Prisma Postgres](https://www.prisma.io/docs/postgres) is a managed PostgreSQL database. Prisma ORM is a way for application code to work with that data; the [Prisma ORM quickstart](https://www.prisma.io/docs/prisma-postgres/quickstart/prisma-orm) shows the connection between the two.
+
+Hosting runs the application somewhere your friend can reach it. [Prisma Compute](https://www.prisma.io/docs/compute) provides hosting for TypeScript applications. We'll return to the hosting step when the product is ready to share.
+
+These roles help you understand what you're looking at when something goes wrong. A page can load while its database connection is broken. A working preview can also be available only inside your development environment.
+
+## Get a starter you can run
+
+Once the Product Builder setup has created the project, open its preview before changing it. Confirm that the starter works, and note how to open it again. If setup reports an error, resolve that error while the project is still small.
+
+If you're working in a project with code files, ask the AI to orient you:
+
+```text title="Understand the starter"
+Inspect the project before making changes. Explain where the main
+screen lives, how to start the preview, and how to run the checks
+already included in the project. Identify any data connection that
+is already configured without showing secret values.
+
+Tell me which parts of our brief are already supported and which
+still need implementation.
+```
+
+You don't need to understand every file. You should know where your work is saved and how to tell whether the latest change is visible in the preview. If an instruction assumes software or an account you don't have, resolve that prerequisite before continuing.
+
+## Keep a way back
+
+Use the project's version history to save the working starter. In a code repository, this is usually a Git commit: a recorded version you can return to. Some building tools expose their own history instead. Find the recovery method available in the tool you're using.
+
+Give the checkpoint a useful description, such as “starter runs before feedback flow.” Then make a small visible change and check it in the preview. That confirms you can give an instruction, see the result, and recover the earlier version before [building the first flow](./first-flow.mdx).
+
+<Checklist id="ch11-before-you-move-on">
+  <Check>Your brief describes the task, a completion check, and what can wait.</Check>
+  <Check>You have a project and can open its working preview.</Check>
+  <Check>You know where changes are saved and how to return to a working version.</Check>
+</Checklist>
+
+{/* prettier-ignore-start */}
+
+{/*
+REVIEW NOTES (private, never published)
+- Source: notes/part-two/_part.md and the accepted chapter 11 outline.
+- Kept: actual tool setup, Prisma, a usable starter, and context for non-technical readers.
+- Reordered: prepare the brief, explain the pieces, verify the starter, save a checkpoint.
+- Added for review: copyable brief and orientation prompt. Tool capabilities are described generically rather than attributed to Product Builder.
+- Prisma database and hosting roles are linked to official documentation checked on 2026-10-01.
+- Cut: unverified Product Builder commands, URLs, UI labels, and a prescribed framework.
+- TODO(shane): Supply Product Builder's entry URL or command and any accounts, installations, or prerequisites the reader needs.
+- TODO(shane): Add the exact project creation, preview, and recovery steps, with the expected result after each.
+- TODO(shane): Confirm the supported AI tool and which database/hosting steps Product Builder performs automatically.
+- The visible draft note is intentional: readers must not mistake this page for a complete setup walkthrough yet.
+*/}
+
+{/* prettier-ignore-end */}
