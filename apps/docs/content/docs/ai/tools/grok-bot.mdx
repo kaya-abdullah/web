@@ -1,0 +1,30 @@
+---
+title: Grok Bot
+description: Connect Grok Bot to Prisma with the Prisma plugin
+url: /ai/tools/grok-bot
+metaTitle: Using Prisma with Grok Bot
+metaDescription: Add the Prisma plugin in Grok Bot for the hosted MCP server and Prisma 8 skills.
+---
+
+[Grok Bot](https://cursor.com/docs/grok-bot) is Cursor's app for persistent AI agents. Its Marketplace includes the Prisma plugin, with one hosted MCP connection and two skills for Prisma ORM 8 and Prisma Composer.
+
+## Add the Prisma plugin
+
+1. Open **Connect apps** in Grok Bot and search the Marketplace for **Prisma**.
+2. Open the Prisma plugin and select **Add**.
+3. When Grok Bot asks you to connect, sign in to Prisma and choose the workspace it can access.
+4. Check **Your plugins** to confirm Prisma was added.
+
+The plugin connects to `https://mcp.prisma.io/mcp`. You do not need a local MCP server. If a team admin has disabled the plugin, ask them to enable it in your Cursor team's Marketplace. See [Cursor's plugin connection guide](https://cursor.com/help/grok-bot/connect-plugins) for more about authorization and team controls.
+
+## Work with Prisma
+
+Ask your Bot to use Prisma MCP to list databases, inspect schemas, run SQL, or manage existing Compute deployments and Object Storage resources. The [MCP tools reference](/ai/mcp-tools) lists the supported operations and their limits. For example:
+
+- "List the Prisma Postgres databases in my selected workspace."
+- "Show the latest failed Compute deployment and its logs."
+- "Inspect this database schema and suggest a migration plan."
+
+For code work, the plugin also includes `prisma-orm` and `prisma-composer` skills. In a checked-out Prisma 8 project, run `npx prisma skills sync` after installing or updating Prisma ORM so the project skill matches its package version. See [Prisma 8 skills](/ai/tools/skills#available-skills-for-prisma-8) for setup details.
+
+Review the target workspace and resource before approving changes or deletions. If you use the Cursor editor, see its separate [Prisma plugin setup](/ai/tools/cursor).
