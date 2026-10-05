@@ -19,12 +19,8 @@ The plugin connects to `https://mcp.prisma.io/mcp`. You do not need a local MCP 
 
 ## Work with Prisma
 
-Ask your Bot to use Prisma MCP to list databases, inspect schemas, run SQL, or manage existing Compute deployments and Object Storage resources. The [MCP tools reference](/ai/mcp-tools) lists the supported operations and their limits. For example:
+Use the [MCP guide's sample prompts](/ai/tools/mcp-server#sample-prompts) to work with Prisma Postgres, existing Compute deployments, and Object Storage. The [MCP tools reference](/ai/mcp-tools) lists supported operations and their limits.
 
-- "List the Prisma Postgres databases in my selected workspace."
-- "Show the latest failed Compute deployment and its logs."
-- "Inspect this database schema and suggest a migration plan."
+For code work, the plugin includes `prisma-orm` and `prisma-composer` skills. Follow the [Prisma 8 skills guide](/ai/tools/skills#available-skills-for-prisma-8) and [Composer skills guide](/ai/tools/skills#available-skills-for-prisma-composer) for project skill setup.
 
-For code work, the plugin also includes `prisma-orm` and `prisma-composer` skills. In a checked-out Prisma 8 project, run `npx prisma skills sync` after installing or updating Prisma ORM so the project skill matches its package version. See [Prisma 8 skills](/ai/tools/skills#available-skills-for-prisma-8) for setup details.
-
-Review the target workspace and resource before approving changes or deletions. If you use the Cursor editor, see its separate [Prisma plugin setup](/ai/tools/cursor).
+If you use the Cursor editor, see its separate [Prisma plugin setup](/ai/tools/cursor).
