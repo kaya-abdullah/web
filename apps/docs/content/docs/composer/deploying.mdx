@@ -131,7 +131,9 @@ Cannot find module '.../node_modules/effect/dist/unstable/http/FetchHttpClient.j
 
 The message after the colon is the module error from inside the engine, and it varies with the versions involved: a missing `effect` module, or an `effect` export that is not a function. The command exits with code 2. Commands that do not read the config, such as `prisma --version`, still run.
 
-This happens when your app, or another dependency of it, pins a different `effect` than `@prisma/composer` does and your package manager hoists that copy where the deploy engine resolves it. A plain Composer app never hits it: `@prisma/composer` and `@prisma/composer-prisma-cloud` pin every `effect`-family package the engine would otherwise float, so a fresh install resolves a single `effect`. The fix is to use the same `effect` as Composer: match your own `effect` dependency to `@prisma/composer`'s exact pin (see its `dependencies.effect`), or, when a dependency you cannot change pins another version, force Composer's in your app's `package.json` and reinstall:
+This happens when your app, or another dependency of it, pins a different `effect` than `@prisma/composer` does and your package manager hoists that copy where the deploy engine resolves it. A plain Composer app never hits it: `@prisma/composer` and `@prisma/composer-prisma-cloud` pin every `effect`-family package the engine would otherwise float, so a fresh install resolves a single `effect`. The fix is to use the same `effect` as Composer: match your own `effect` dependency to `@prisma/composer`'s exact pin (see its `dependencies.effect`), or, when a dependency you cannot change pins another version, force Composer's with your package manager's override setting and reinstall. Each one takes the version in `@prisma/composer`'s `dependencies.effect`.
+
+npm reads `overrides` in `package.json`:
 
 ```json title="package.json"
 "overrides": {
@@ -139,7 +141,32 @@ This happens when your app, or another dependency of it, pins a different `effec
 }
 ```
 
-Use `resolutions` in Yarn, and put the `overrides` under `"pnpm"` for pnpm. The setting only takes effect when the tree is rebuilt, and it goes stale when you upgrade `@prisma/composer`, so update it with each upgrade.
+pnpm 11 and later read `overrides` in `pnpm-workspace.yaml` and ignore the `"pnpm"` field of `package.json`:
+
+```yaml title="pnpm-workspace.yaml"
+overrides:
+  effect: "<the version in @prisma/composer's dependencies.effect>"
+```
+
+pnpm 10 and earlier read `overrides` under `"pnpm"` in `package.json`:
+
+```json title="package.json"
+"pnpm": {
+  "overrides": {
+    "effect": "<the version in @prisma/composer's dependencies.effect>"
+  }
+}
+```
+
+Yarn reads `resolutions` in `package.json`:
+
+```json title="package.json"
+"resolutions": {
+  "effect": "<the version in @prisma/composer's dependencies.effect>"
+}
+```
+
+The setting only takes effect when the tree is rebuilt, and it goes stale when you upgrade `@prisma/composer`, so update it with each upgrade.
 
 ## When a deploy stops on a missing connection value
 
