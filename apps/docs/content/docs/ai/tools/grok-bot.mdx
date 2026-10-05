@@ -6,21 +6,29 @@ metaTitle: Using Prisma with Grok Bot
 metaDescription: Add the Prisma plugin in Grok Bot for the hosted MCP server and Prisma 8 skills.
 ---
 
-[Grok Bot](https://cursor.com/docs/grok-bot) is Cursor's app for persistent AI agents. Its Marketplace includes the Prisma plugin, with one hosted MCP connection and two skills for Prisma ORM 8 and Prisma Composer.
+[Grok Bot](https://cursor.com/docs/grok-bot) is Cursor's app for persistent AI agents. Add the Prisma plugin to connect it to Prisma and use Prisma ORM 8 and Composer skills.
 
 ## Add the Prisma plugin
 
-1. Select **Plugins** in the sidebar, then search the Marketplace for **Prisma**.
+1. Select **Connect apps** in the sidebar, then search for **Prisma**.
 2. Open the Prisma plugin and select **Add**.
 3. Complete authorization in your browser and choose the Prisma workspace when prompted.
-4. Check **Installed** to confirm Prisma was added.
+4. Check that the plugin account shows **Connected**.
 
-The plugin connects to `https://mcp.prisma.io/mcp`. You do not need a local MCP server. If a team admin has disabled the plugin, ask them to enable it in your Cursor team's Marketplace. See [Cursor's plugin connection guide](https://cursor.com/help/grok-bot/connect-plugins) for more about authorization and team controls.
+<img
+  src="/img/ai/grok-bot-prisma-connected.png"
+  alt="Prisma connected in Grok Bot, with enabled tools and the two Prisma skills."
+  width={2096}
+  height={1638}
+  className="w-full"
+/>
+
+For connection issues or team restrictions, see [Cursor's plugin connection guide](https://cursor.com/help/grok-bot/connect-plugins).
 
 ## Work with Prisma
 
-Use the [MCP guide's sample prompts](/ai/tools/mcp-server#sample-prompts) to work with Prisma Postgres, existing Compute deployments, and Object Storage. The [MCP tools reference](/ai/mcp-tools) lists supported operations and their limits.
+Ask the bot to work with Prisma Postgres, existing Compute deployments, or Object Storage. See [sample prompts](/ai/tools/mcp-server#sample-prompts) and the [tools reference](/ai/mcp-tools).
 
-For code work, the plugin includes `prisma-orm` and `prisma-composer` skills. Follow the [Prisma 8 skills guide](/ai/tools/skills#available-skills-for-prisma-8) and [Composer skills guide](/ai/tools/skills#available-skills-for-prisma-composer) for project skill setup.
+For code work, use the included `prisma-orm` and `prisma-composer` skills. See the [ORM skills guide](/ai/tools/skills#available-skills-for-prisma-8) and [Composer skills guide](/ai/tools/skills#available-skills-for-prisma-composer) for project setup.
 
-If you use the Cursor editor, see its separate [Prisma plugin setup](/ai/tools/cursor).
+For the Cursor editor, follow the [Cursor setup](/ai/tools/cursor).

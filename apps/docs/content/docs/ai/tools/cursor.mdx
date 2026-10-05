@@ -6,7 +6,7 @@ metaTitle: Using Prisma with Cursor
 metaDescription: Install the Prisma Cursor plugin for Prisma 8 skills and the hosted Prisma MCP server.
 ---
 
-[Cursor](https://cursor.com/) is an AI code editor. The [Prisma plugin](https://cursor.com/marketplace/prisma) connects Cursor to Prisma's hosted MCP server and gives its agent guidance for Prisma ORM 8 and Prisma Composer.
+The [Prisma plugin](https://cursor.com/marketplace/prisma) adds Prisma ORM 8 skills, Prisma Composer skills, and the hosted Prisma MCP server to [Cursor](https://cursor.com/).
 
 ## Install the Prisma plugin
 
@@ -14,30 +14,39 @@ metaDescription: Install the Prisma Cursor plugin for Prisma 8 skills and the ho
 2. Select **Install** and choose a project or user scope. You can also run `/add-plugin prisma` in Cursor chat.
 3. When you first use a Prisma MCP tool, sign in to Prisma and choose the workspace the agent can access.
 
-The plugin adds one hosted MCP connection at `https://mcp.prisma.io/mcp` and two skills: `prisma-orm` and `prisma-composer`. It does not start a local MCP server or add automation hooks. You do not need to configure the MCP server again after installing the plugin.
+<img
+  src="/img/ai/cursor-prisma-marketplace.png"
+  alt="Prisma's Cursor Marketplace listing showing two skills, one MCP server, and the install command."
+  width={585}
+  height={855}
+  className="w-full"
+/>
 
 ## Use the skills
 
-Invoke `/prisma-orm` for Prisma 8 setup, contracts, queries, migrations, or upgrades. Invoke `/prisma-composer` when building or deploying a Composer app. These short plugin skills point to the official instructions and prefer a project copy that matches the installed package version.
+Cursor selects relevant skills automatically. You can also invoke them in chat:
 
-Follow the [Prisma 8 skills guide](/ai/tools/skills#available-skills-for-prisma-8) to install or refresh version-matched project skills. For a new project, start with the [Prisma 8 setup guide](/getting-started).
+- `/prisma-orm`: Prisma 8 setup, queries, migrations, and upgrades.
+- `/prisma-composer`: building and deploying Composer apps.
+
+See the [skills guide](/ai/tools/skills#available-skills-for-prisma-8) for version-matched project skills, or [get started with Prisma 8](/getting-started).
 
 ## Use the Prisma MCP server
 
-The hosted MCP server can manage Prisma Postgres databases, existing Prisma Compute deployments, and Object Storage. See the [MCP guide's sample prompts](/ai/tools/mcp-server#sample-prompts) and [MCP tools reference](/ai/mcp-tools) for supported operations and their limits.
+Ask the agent to work with Prisma Postgres, existing Compute deployments, or Object Storage. See [sample prompts](/ai/tools/mcp-server#sample-prompts) and the [tools reference](/ai/mcp-tools).
 
-To connect only the MCP server without the plugin, use the [manual Cursor setup](/ai/tools/mcp-server#cursor).
+For an MCP-only connection, use the [manual setup](/ai/tools/mcp-server#cursor).
 
 ## Give Cursor project context
 
-For code changes, open the project in Cursor and include the relevant Prisma files in the conversation, such as `prisma.config.ts`, `contract.prisma`, and your application code. The `prisma-orm` skill should guide Prisma 8 API choices; inspect the project's installed package version before applying examples from another version.
+Open your project and include relevant files, such as `prisma.config.ts`, `contract.prisma`, and application code.
 
-You can also add the [Prisma docs feed](https://pris.ly/llms.txt) to Cursor's documentation context for current reference links.
+Add the [Prisma docs feed](https://pris.ly/llms.txt) to Cursor's documentation context for current references.
 
 ## Use the Prisma VS Code extension in Cursor
 
-The [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) also works in Cursor. It provides a UI for managing local and remote Prisma Postgres databases, viewing and editing data in Prisma Studio, and visualizing your schema.
+The [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) also works in Cursor. Use it to manage Prisma Postgres databases and open Prisma Studio.
 
-Follow the [VS Code extension guide](/guides/postgres/vscode) for installation and database workflows, and the [Prisma Studio setup guide](/studio/integrations/vscode-integration) for data editing.
+See the [extension setup](/guides/postgres/vscode) and [Studio guide](/studio/integrations/vscode-integration).
 
-If you use Cursor's separate [Grok Bot](/ai/tools/grok-bot) app, add the Prisma plugin from its Marketplace there too.
+For Grok Bot, follow the [Grok Bot setup](/ai/tools/grok-bot).
