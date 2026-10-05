@@ -44,6 +44,17 @@ Check the target workspace and resource before approving a change or deletion. T
 
 For code changes, open the project in Cursor and include the relevant Prisma files in the conversation, such as `prisma.config.ts`, `contract.prisma`, and your application code. The `prisma-orm` skill should guide Prisma 8 API choices; inspect the project's installed package version before applying examples from another version.
 
-You can also add the [Prisma docs feed](https://pris.ly/llms.txt) to Cursor's documentation context for current reference links. The [Prisma VS Code extension](/guides/postgres/vscode) works in Cursor if you want a database UI in the editor.
+You can also add the [Prisma docs feed](https://pris.ly/llms.txt) to Cursor's documentation context for current reference links.
+
+## Use the Prisma VS Code extension in Cursor
+
+The [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) also works in Cursor. It provides a UI for managing local and remote Prisma Postgres databases, viewing and editing data in Prisma Studio, and visualizing your schema.
+
+1. Install the latest version of the Prisma VS Code extension in Cursor.
+2. Select the Prisma logo in the **Activity Bar**.
+3. Select **Sign in to get started**, then authenticate with Prisma Console.
+4. Choose the workspace you want to manage.
+
+See the [VS Code extension guide](/guides/postgres/vscode) for its full set of workflows and the [Prisma Studio setup guide](/studio/integrations/vscode-integration) for data editing.
 
 If you use Cursor's separate [Grok Bot](/ai/tools/grok-bot) app, add the Prisma plugin from its Marketplace there too.
