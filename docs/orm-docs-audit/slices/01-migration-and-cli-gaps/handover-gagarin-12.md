@@ -1,62 +1,56 @@
-# Handover: prisma/web#8349 waits for prisma/orm#30475
+# Handover: prisma/orm#30475 review fixes, and prisma/web#8349 waiting on its release
 
-Written 2026-10-01 by gagarin-12 before a rate limit. For an agent starting in a fresh session and a fresh worktree of prisma/web. It replaces the handover columbo-92 wrote on 2026-09-30.
+Written 2026-10-05 by gagarin-12 before a rate limit. For an agent starting in a fresh session and fresh worktrees. It replaces the 2026-10-01 version of this file.
 
-## What is left
+## Transcript
 
-One pull request: [prisma/web#8349](https://github.com/prisma/web/pull/8349). It is a draft, its base is `main`, it has no conflicts, and all checks pass. It adds `@contract` and `@db` to the contract reference table in `apps/docs/content/docs/orm/migrations/the-migration-graph.mdx` and to the option rows on `cli/migration-status.mdx`, `cli/db-migrate.mdx`, and `cli/db-update.mdx`.
+Session gagarin-12: id `local_c4fd71fe-13d2-483c-a336-3d6a732b9357`, app link `claude://claude.ai/epitaxy/local_c4fd71fe-13d2-483c-a336-3d6a732b9357`. Read it with the `ccd_session_mgmt` tools `list_events` or `search_session_transcripts`. The last stretch (2026-10-05) is the work on prisma/orm#30475.
 
-It must not merge until a published `prisma` release has the behavior it documents. That behavior comes from [prisma/orm#30475](https://github.com/prisma/orm/pull/30475), which is still open.
+## Two pieces of work
 
-## What is done
+### A. prisma/orm#30475, the CLI fix (active, mid-round)
 
-- prisma/web#8348 merged on 2026-09-30 (squash).
-- prisma/orm#30527 merged on 2026-09-30 through the prisma/orm merge queue. The daily sync workflow in prisma/web picks it up.
-- prisma/web#8349: base changed to `main`. The squash of #8348 caused conflicts in its four files. Main's version of those files was identical to the old base, so the merge commit `91dc1b7a5` keeps the branch's side. The diff against main is 4 files, 9 insertions, 10 deletions, the same as before.
+Will told gagarin-12 on 2026-10-05 to take over [prisma/orm#30475](https://github.com/prisma/orm/pull/30475): fix conflicts, run `/drive-code-review` without the walkthrough, and address what it finds. The pull request branch is `fix/cli-contract-reference-forms` in prisma/orm. The bot remote in prisma/orm is named `bot` and points at `git@github-wmadden-electric:prisma/prisma.git` (GitHub redirects to prisma/orm). This session's worktree was `/Users/wmadden/Projects/prisma/orm/.claude/worktrees/gagarin-30475` on local branch `gagarin/fix-cli-contract-reference-forms`; make your own worktree, do not reuse it.
 
-## The blocker: nobody is working on prisma/orm#30475
+State of the branch, newest first:
 
-- Its last commit is from 2026-09-28. Head is `20615a96f0` on branch `fix/cli-contract-reference-forms`.
-- No session in the app is bound to it and no local worktree holds its branch.
-- columbo-92 reported four defects on it that are unanswered: [first comment](https://github.com/prisma/orm/pull/30475#issuecomment-5904954696) and [second comment](https://github.com/prisma/orm/pull/30475#issuecomment-5905041843).
-- gagarin-12 offered to take it over. Will has not answered. Do not push to its branch unless Will says so. If he does, work in a worktree of prisma/orm, fix the four defects, run `/drive-code-review`, and never run the full integration suites locally.
+| Commit | What | Status |
+| --- | --- | --- |
+| `96ae5c57a9` on branch `gagarin/30475-review-fixes-wip` (bot remote) | Items 5 to 14 of the fix brief, committed by gagarin-12 when the implementer was stopped. It also force-adds `wip/review/` (spec, both reviews, the fix brief) and `wip/qa/` (probe script and log). | **Untested.** The implementer had finished editing and was about to run migration-tools tests, rebuild the CLI, and run the CLI tests. Expect small breakages. |
+| `3a1736a8fc`, `e7043a1cac`, `2c0f06fd9d` on `fix/cli-contract-reference-forms` (pushed, the pull request tip) | Items 1 to 3 of the fix brief: the extension-space regression (F01), `--to`/`--from` scoped to the app space in `migration status` (F02), per-space runner skip (F04). | Committed by the implementer after its own test runs; not re-verified by gagarin-12. Watch CI. |
+| `b2eb5aad3f` | gagarin-12's fix for the four defects columbo-92 reported: `db migrate --to @db` and `--to @empty` on an unmarked database, the `migrate --show` command name, two help lines. | Verified: CLI typecheck, lint, touched tests, and a real PostgreSQL 15 run (`wip/qa/probes.log` on the WIP branch). |
+| `a08c5532ac` | Merge of `origin/main`; one import conflict in `cli/src/orm/db/update.ts`, resolved by keeping main's imports plus the branch's one new import. | Verified. |
 
-## When the docs can go live
+What to do, in order:
 
-All three must be true:
+1. Make a prisma/orm worktree on `bot/gagarin/30475-review-fixes-wip`. Read `wip/review/fix-brief.md` (the task list and the decisions already made: S04 accepted as-is, F03 declined, the `ContractRef` type change deferred), then `wip/review/code-review.md` and `wip/review/system-design-review.md`.
+2. Finish items 5 to 14: `pnpm --filter @internal/migration-tools build` and `test`, `pnpm --filter @internal/cli build`, `typecheck`, `lint`, and `pnpm vitest run` on the touched test files inside `packages/1-framework/3-tooling/cli`. `pnpm check:error-reference` at the root. Never run the full integration suites. Fix what breaks, keep commits small, then move the finished commits onto `fix/cli-contract-reference-forms` (merge or cherry-pick; never rebase or force-push the pull request branch) and push via `bot`. Drop the force-added `wip/` files from what you push to the pull request branch.
+3. Rerun the real-database probes with the rebuilt CLI: the recipe is `wip/qa/lib.sh` (PostgreSQL 15 from Homebrew, port 54332, `LC_ALL=en_US.UTF-8` for `pg_ctl`, `initdb -U postgres --auth=trust`), the scratch project was `wip/qa/scratch` linked to the workspace build (links are in the transcript; rebuild them: `node_modules/@prisma/orm-postgres` to `packages/9-public/@prisma/orm-postgres`, `@prisma/cli-engine` and `dotenv` to the pnpm store). The probe list and expected results are in `wip/qa/probes.log`.
+4. Run `/drive-code-review` again on the new tip (omit the walkthrough, Opus for every subagent) and fix what it finds.
+5. Update the pull request description: add a section for the gagarin-12 commits (the four defect fixes, the review-driven changes, the S04 and F03 decisions), and a Deferred list: `ContractRef` type change so `@db` has no hash; the placeholder hash still reaching `db sign @db`, `migration ref set @db`, `migration plan --from @db`; the unreachable-path hint that suggests `migration plan --to empty`, which `migration plan` rejects. Reply to columbo-92's two comments ([one](https://github.com/prisma/orm/pull/30475#issuecomment-5904954696), [two](https://github.com/prisma/orm/pull/30475#issuecomment-5905041843)) saying each item is fixed in `b2eb5aad3f`, and that `@empty` is kept in the `db migrate --to` help because it now behaves like any hash with no route.
+6. Get it reviewed and merged (prisma/orm uses a merge queue: `gh pr merge --auto`).
 
-1. prisma/orm#30475 is merged.
-2. A prisma/orm release tag contains its merge commit. Check with `gh api "repos/prisma/orm/compare/<tag>...<mergeCommit>"`: the tag contains it when `ahead_by` is 0.
-3. The npm `prisma` package pins an `@prisma/orm-toolchain` version at or above that release. Check with `npm view prisma dependencies --json`.
+Auto-fix: this session had prisma/orm#30475 bound with Auto-fix on. Bind it in your session too.
 
-Point 3 matters because the `prisma` package is built from prisma/prisma-cli and has its own version numbers. On 2026-10-01, `prisma` 8.0.0-rc.19 pins `@prisma/orm-toolchain` 8.0.0-rc.13, while prisma/orm is at v8.0.0-rc.14. The rc.14 tag does not contain the two fix commits.
+### B. prisma/web#8349, the docs change (waiting)
 
-Then run the re-check list in the description of prisma/web#8349 against `prisma@latest`, in a scratch project under `wip/` in your worktree. The PostgreSQL 15 recipe is at the top of `docs/orm-docs-audit/slices/01-migration-and-cli-gaps/facts-rc19.md` on branch `docs/orm8-docs-audit-design` (`LC_ALL=en_US.UTF-8` is needed for `pg_ctl`; there is no Docker on this machine). The scripts `matrix-30475.sh` and `lib-30475.sh` beside it ran the same matrix on the pull request's branch.
+[prisma/web#8349](https://github.com/prisma/web/pull/8349) is a green, conflict-free draft on `main`. It documents `@contract` and `@db` for `migration status --to/--from` and `db migrate --to`. It must stay a draft until a published `prisma` release contains prisma/orm#30475. Three conditions, all must hold: (1) prisma/orm#30475 merged; (2) a prisma/orm release tag contains its merge commit (`gh api "repos/prisma/orm/compare/<tag>...<mergeCommit>"`, `ahead_by` 0); (3) the npm `prisma` package (built from prisma/prisma-cli, own version numbers) pins an `@prisma/orm-toolchain` at or above that release (`npm view prisma dependencies --json`). On 2026-10-05 `prisma` 8.0.0-rc.19 pins toolchain rc.13 and prisma/orm is at v8.0.0-rc.14.
 
-- If every result matches, run `gh pr ready 8349 --repo prisma/web`.
-- If a result differs, change the pages to what the release does, push, then mark it ready.
+Then run the re-check list in the pull request's description against `prisma@latest` with PostgreSQL 15. If every result matches, `gh pr ready 8349 --repo prisma/web`. If a result differs, change the pages and push: the branch name `claude/docs-contract-refs-30475` is held by another worktree, so check it out under another local name and `git push bot HEAD:claude/docs-contract-refs-30475`. Two things changed by work A that the docs must reflect: `db migrate --to @empty` now succeeds on an empty database (the description says to add `@empty` to the `db migrate --to` row in that case), and `db migrate --to @db` on an unmarked database reports "Already up to date".
 
-## First steps for the new session
+Bind prisma/web#8349 with Auto-fix in your session. Schedule a two-hourly `CronCreate` check for the three conditions; cron jobs are session-only.
 
-1. Turn on Auto-fix for prisma/web#8349: `mcp__ccd_pr__bind_pr` with its URL, then `mcp__ccd_pr__set_monitor` with `auto_fix: true` and `address_comments: true`. When you turn it on, the app replays old comments as events. They need no action.
-2. Auto-fix does not report merges or releases. Schedule a check every two hours with `CronCreate` that tests the three conditions above. Cron jobs are session-only and expire after seven days.
-3. To change prisma/web#8349, the branch name `claude/docs-contract-refs-30475` is held by another worktree. Check it out under another local name and push to the same remote branch:
+## Done before this handover
 
-```bash
-git fetch bot claude/docs-contract-refs-30475
-git checkout -B <your-name>/docs-contract-refs-30475 bot/claude/docs-contract-refs-30475
-git push bot HEAD:claude/docs-contract-refs-30475
-```
-
-Merge `origin/main` in when it conflicts. Never rebase or force-push.
+- prisma/web#8348 merged 2026-09-30. prisma/orm#30527 merged 2026-09-30 through the merge queue.
+- prisma/web#8349 rebased onto `main` by merge (`91dc1b7a5`), no conflicts, diff unchanged.
 
 ## Limits
 
-- Do not push to the branch of prisma/web#8243 (`docs/orm8-docs-audit-design`). Another session owns it. Read from it only.
+- Do not push to the branch of prisma/web#8243 (`docs/orm8-docs-audit-design`). Read from it only.
 - Do not start items E13 to E20 or D23 to D29 in `docs/orm-docs-audit/changes.md` unless Will asks.
+- Use `curl` against the GitHub API with `$GH_TOKEN` when `gh` hangs; it did so several times on this machine.
 
-## Context
+## Where this file is
 
-- Transcript of this session (gagarin-12): session id `local_c4fd71fe-13d2-483c-a336-3d6a732b9357`, app link `claude://claude.ai/epitaxy/local_c4fd71fe-13d2-483c-a336-3d6a732b9357`. Read it with the `ccd_session_mgmt` tools `list_events` or `search_session_transcripts`.
-- columbo-92's handover, with the slice's spec, plan, and evidence: `git show origin/docs/orm8-docs-audit-design:docs/orm-docs-audit/slices/01-migration-and-cli-gaps/handover.md`. Its session id was `local_075b8826-8782-4df4-afa7-9da2fc37c0d5`; that session no longer appears in the app's session list.
-- This file: `git show bot/claude/orm8-docs-audit-handover-dccc09:docs/orm-docs-audit/slices/01-migration-and-cli-gaps/handover-gagarin-12.md`.
+`git show bot/claude/orm8-docs-audit-handover-dccc09:docs/orm-docs-audit/slices/01-migration-and-cli-gaps/handover-gagarin-12.md` in prisma/web. columbo-92's original handover and the slice's spec, plan, and evidence: `git show origin/docs/orm8-docs-audit-design:docs/orm-docs-audit/slices/01-migration-and-cli-gaps/handover.md`.
