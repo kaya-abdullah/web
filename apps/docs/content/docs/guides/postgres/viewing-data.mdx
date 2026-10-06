@@ -132,7 +132,7 @@ To add the connection in Postico:
 
 [LibreDB Studio](https://github.com/libredb/libredb-studio) is an open source, web-based SQL editor. To add the connection in LibreDB Studio:
 
-1. Start LibreDB Studio with `docker run -p 3000:3000 ghcr.io/libredb/libredb-studio:latest` or `npx @libredb/studio`, open `http://localhost:3000` and sign in as `admin@libredb.org` with the password printed to the log on first run.
+1. Start LibreDB Studio with `docker run -p 3000:3000 ghcr.io/libredb/libredb-studio:latest` or `npx @libredb/studio` (requires Node.js 24 or later), open `http://localhost:3000` and sign in as `admin@libredb.org` with the password printed to the log on first run.
 2. Click on the **+** (New connection) button in the sidebar.
 3. Click on **Paste URL**, paste your direct connection string and click **Parse**. This selects **PostgreSQL** and fills in the fields below. To enter them by hand instead, select **PostgreSQL** as the database type and enter the following details:
    - **Connection Name**: Any name you want to give to your connection.
